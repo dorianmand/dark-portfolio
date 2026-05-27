@@ -1,0 +1,43 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap');
+@import "tailwindcss";
+@plugin "tailwindcss-animate";
+
+@theme {
+  --font-body: 'Inter', sans-serif;
+  --font-display: 'Instrument Serif', serif;
+  --color-bg: hsl(var(--bg));
+  --color-surface: hsl(var(--surface));
+  --color-text-primary: hsl(var(--text));
+  --color-muted: hsl(var(--muted));
+  --color-stroke: hsl(var(--stroke));
+  --animate-scroll-down: scroll-down 1.5s ease-in-out infinite;
+  --animate-role-fade-in: role-fade-in 0.4s ease-out;
+  --animate-gradient-shift: gradient-shift 6s ease infinite;
+}
+
+:root {
+  --bg: 0 0% 4%;
+  --surface: 0 0% 8%;
+  --text: 0 0% 96%;
+  --muted: 0 0% 53%;
+  --stroke: 0 0% 12%;
+  --accent: 0 0% 96%;
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; min-width: 320px; min-height: 100vh; overflow-x: hidden; background: hsl(var(--bg)); color: hsl(var(--text)); font-family: var(--font-body); }
+button, a { -webkit-tap-highlight-color: transparent; }
+::selection { background: rgba(137,170,204,.35); color: hsl(var(--text)); }
+
+.accent-gradient { background: linear-gradient(90deg, #89AACC 0%, #4E85BF 100%); }
+.accent-gradient-reverse { background: linear-gradient(90deg, #4E85BF 0%, #89AACC 100%); }
+.gradient-border { position: relative; }
+.gradient-border::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; background: linear-gradient(90deg,#89AACC,#4E85BF,#89AACC); background-size: 200% 200%; opacity: 0; transition: opacity .3s ease; z-index: -1; animation: gradient-shift 6s ease infinite; }
+.gradient-border:hover::before { opacity: 1; }
+.halftone { background-image: radial-gradient(circle, #000 1px, transparent 1px); background-size: 4px 4px; }
+
+@keyframes scroll-down { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
+@keyframes role-fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
