@@ -16,13 +16,13 @@
 }
 
 :root {
-  --bg: 0 0% 4%;
+  --bg: 0 0% 96%;
   --surface: 0 0% 8%;
-  --text: 0 0% 96%;
-  --muted: 0 0% 53%;
+  --text: 0 0% 6%;
+  --muted: 0 0% 42%;
   --stroke: 0 0% 12%;
   --accent: 0 0% 96%;
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 * { box-sizing: border-box; }
@@ -31,8 +31,8 @@ body { margin: 0; min-width: 320px; min-height: 100vh; overflow-x: hidden; backg
 button, a { -webkit-tap-highlight-color: transparent; }
 ::selection { background: rgba(137,170,204,.35); color: hsl(var(--text)); }
 
-.accent-gradient { background: linear-gradient(90deg, #89AACC 0%, #4E85BF 100%); }
-.accent-gradient-reverse { background: linear-gradient(90deg, #4E85BF 0%, #89AACC 100%); }
+.accent-gradient { background: linear-gradient(90deg, #FFD700 0%, #FF8C00 100%); }
+.accent-gradient-reverse { background: linear-gradient(90deg, #FF8C00 0%, #FFD700 100%); }
 .gradient-border { position: relative; }
 .gradient-border::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; background: linear-gradient(90deg,#89AACC,#4E85BF,#89AACC); background-size: 200% 200%; opacity: 0; transition: opacity .3s ease; z-index: -1; animation: gradient-shift 6s ease infinite; }
 .gradient-border:hover::before { opacity: 1; }

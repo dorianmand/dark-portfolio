@@ -1,22 +1,35 @@
 import { motion } from 'framer-motion';
 
 const stats = [
-  ['20+', 'Years Experience'],
-  ['95+', 'Projects Done'],
-  ['200%', 'Satisfied Clients'],
+  ['Architecture', 'Spatial thinking'],
+  ['Technology', 'Digital systems'],
+  ['Sustainability', 'Responsible workflows'],
 ];
 
 export function Stats() {
   return (
-    <section className="bg-bg py-16 md:py-24">
-      <div className="mx-auto grid max-w-[1200px] grid-cols-1 gap-5 px-6 md:grid-cols-3 md:px-10 lg:px-16">
-        {stats.map(([value, label], i) => (
-          <motion.div key={label} initial={{ opacity: 0, y: 30 }} whileInView={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: i * 0.08 }} viewport={{ once: true }} className="rounded-3xl border border-stroke bg-surface/50 p-8 text-center">
-            <div className="mb-2 font-display text-6xl italic text-text-primary md:text-7xl">{value}</div>
-            <p className="text-xs uppercase tracking-[0.3em] text-muted">{label}</p>
-          </motion.div>
-        ))}
-      </div>
-    </section>
+    <section id="stats" className="bg-white py-16 md:py-24">
+  <div className="mx-auto max-w-[1200px] px-6 text-center md:px-10 lg:px-16">
+    <p className="mb-6 text-xs uppercase tracking-[0.3em] text-muted">
+  ABOUT
+</p>
+    <div className="font-display text-4xl italic text-black md:text-6xl">
+      
+    </div>
+  <div className="mx-auto mt-8 max-w-2xl space-y-5 text-sm leading-relaxed text-muted md:text-base">
+  <p>
+    Layer_off helps architecture offices move from AI curiosity to controlled, useful workflows.
+  </p>
+
+  <p>
+    We work with practices that are cautious, curious or unsure where to begin — helping them test tools, identify realistic use cases and integrate AI without losing authorship, design intent or professional responsibility.
+  </p>
+
+  <p>
+    Not hype. Not generic automation. Architecture-specific workflows that make invisible systems clearer, support better decisions and help teams work with more focus and control.
+  </p>
+</div>
+  </div>
+</section>
   );
 }

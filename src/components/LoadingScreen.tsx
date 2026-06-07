@@ -31,7 +31,7 @@ export function LoadingScreen({ onComplete }: { onComplete: () => void }) {
 
   return (
     <motion.div exit={{ opacity: 0 }} className="fixed inset-0 z-[9999] bg-bg">
-      <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="absolute left-6 top-6 text-xs uppercase tracking-[0.3em] text-muted">Portfolio</motion.div>
+      <motion.div initial={{ y: -20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} className="absolute left-6 top-6 text-xs uppercase tracking-[0.3em] text-muted">...</motion.div>
       <div className="absolute inset-0 grid place-items-center overflow-hidden">
         <AnimatePresence mode="wait">
           <motion.div key={words[word]} initial={{ y: 20, opacity: 0 }} animate={{ y: 0, opacity: 1 }} exit={{ y: -20, opacity: 0 }} transition={{ duration: 0.45 }} className="font-display text-4xl italic text-text-primary/80 md:text-6xl lg:text-7xl">{words[word]}</motion.div>

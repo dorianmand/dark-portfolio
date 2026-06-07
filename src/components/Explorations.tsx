@@ -22,16 +22,16 @@ export function Explorations() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-[300vh] overflow-hidden bg-bg">
+    <section ref={sectionRef} className="relative min-h-[300vh] overflow-hidden bg-white">
       <div ref={contentRef} className="relative z-10 flex h-screen items-center justify-center px-6 text-center">
         <div>
           <p className="mb-5 text-xs uppercase tracking-[0.3em] text-muted">Explorations</p>
           <h2 className="mb-5 text-5xl tracking-tight md:text-7xl">Visual <span className="font-display italic">playground</span></h2>
           <p className="mx-auto mb-8 max-w-md text-sm text-muted md:text-base">Loose studies, experiments, and visual sparks collected between client launches.</p>
-          <a className="gradient-border relative inline-flex rounded-full bg-surface px-7 py-3.5 text-sm text-text-primary" href="#">Dribbble →</a>
+          <a className="gradient-border relative inline-flex rounded-full bg-black px-7 py-3.5 text-sm text-white" href="#">View all →</a>
         </div>
       </div>
-      <div className="absolute inset-0 z-20 mx-auto grid max-w-[1400px] grid-cols-2 gap-12 px-8 py-[35vh] md:gap-40 md:px-20">
+      <div className="absolute inset-0 z-20 mx-auto grid max-w-[1000px] grid-cols-2 justify-items-center gap-12 px-8 py-[35vh] md:gap-55 md:px-15">
         <div className="space-y-36 pt-40">
           {explorations.filter((_, i) => i % 2 === 0).map((img, i) => <GalleryCard key={img} img={img} rotation={i % 2 ? 5 : -6} onClick={() => setActive(img)} />)}
         </div>
