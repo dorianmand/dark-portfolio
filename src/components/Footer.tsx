@@ -1,68 +1,63 @@
-import { useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
+import { Link } from 'react-router-dom';
 
 const socials = [
-  { name: 'LinkedIn', url: '#' },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/dorian-mandzukic' },
   { name: 'Instagram', url: 'https://instagram.com/layeroff.ai' },
   { name: 'TikTok', url: 'https://tiktok.com/@layeroff.ai' },
-  { name: 'GitHub', url: '#' },
 ];
 
 export function Footer() {
-  const marquee = useRef<HTMLDivElement | null>(null);
-  const [subject, setSubject] = useState('');
-const [message, setMessage] = useState('');
-const sendEmail = () => {
-  window.location.href = `mailto:hello@layeroff.ai?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(message)}`;
-};
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.to(marquee.current, { xPercent: -50, duration: 40, ease: 'none', repeat: -1 });
-    });
-    return () => ctx.revert();
-  }, []);
-
   return (
-    <footer id="contact" className="relative overflow-hidden bg-white pb-8 pt-16 md:pb-12 md:pt-20">
-      <div className="hidden relative z-10 overflow-hidden whitespace-nowrap py-6">
-        <div ref={marquee} className="inline-flex font-display text-6xl italic text-text-primary/10 md:text-9xl">
-          {Array.from({ length: 20 }).map((_, i) => <span key={i} className="pr-6">BUILDING THE FUTURE • </span>)}
+    <footer
+      id="contact"
+      className="relative bg-bg pb-10 pt-24 md:pb-12 md:pt-32"
+    >
+      <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
+        <div className="border-t border-stroke/20 pt-12">
+          <p className="mb-8 text-xs uppercase tracking-[0.3em] text-muted">
+            Contact
+          </p>
+
+          <a
+            href="mailto:hello@layeroff.ai"
+            className="inline-block text-3xl tracking-tight transition-opacity hover:opacity-60 md:text-5xl"
+          >
+            hello@layeroff.ai
+          </a>
+
+          <p className="mt-8 max-w-xl text-base leading-relaxed text-muted">
+            Berlin. Open to conversations about computational design, AI in
+            architectural practice, and the projects shown here.
+          </p>
         </div>
-      </div>
-      <div className="relative z-10 mx-auto max-w-[1200px] px-6 text-center md:px-10 lg:px-16">
-        <p className="mb-5 text-xs uppercase tracking-[0.3em] text-muted">Contact</p>
-        <h2 className="mx-auto mb-8 max-w-3xl text-5xl tracking-tight md:text-7xl">Let’s build something <span className="font-display italic">alive</span>.</h2>
-        <div className="mx-auto mt-10 flex max-w-xl flex-col gap-4">
-  <input
-    value={subject}
-    onChange={(e) => setSubject(e.target.value)}
-    placeholder="Subject"
-    className="rounded-full border border-black bg-white px-5 py-3 text-sm text-black outline-none placeholder:text-black/40"
-  />
 
-  <textarea
-    value={message}
-    onChange={(e) => setMessage(e.target.value)}
-    placeholder="Message"
-    rows={5}
-    className="resize-none rounded-3xl border border-black bg-white px-5 py-4 text-sm text-black outline-none placeholder:text-black/40"
-  />
+        <div className="mt-24 flex flex-col items-start justify-between gap-6 border-t border-stroke/20 pt-8 md:flex-row md:items-center">
+          <div className="flex flex-wrap gap-6 text-sm text-muted">
+            {socials.map((s) => (
+              <a
+                key={s.name}
+                href={s.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="transition hover:text-text-primary"
+              >
+                {s.name}
+              </a>
+            ))}
+          </div>
 
-  <button
-    onClick={sendEmail}
-    className="rounded-full border border-black bg-transparent px-7 py-3.5 text-sm text-black transition hover:scale-105"
-  >
-    Send message
-  </button>
-</div>
-        <div className="mt-20 flex flex-col items-center justify-between gap-6 border-t border-stroke pt-8 md:flex-row">
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-muted">
-  {socials.map((s) => (
-    <a key={s.name} href={s.url} target="_blank" rel="noopener noreferrer" className="hover:text-text-primary transition">
-      {s.name}
-    </a>
-  ))}</div>
-          <div className="flex items-center gap-3 text-sm text-muted"><span className="relative flex h-3 w-3"><span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-green-400 opacity-75" /><span className="relative inline-flex h-3 w-3 rounded-full bg-green-400" /></span>Available for projects</div>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-muted">
+            <Link
+              to="/impressum"
+              className="transition hover:text-text-primary"
+            >
+              Impressum
+            </Link>
+            <span className="text-muted/40">·</span>
+            © 2026 Dorian Mandzukic
+            <span className="mx-2 text-muted/40">·</span>
+            <span className="font-display italic">LayerOff</span>
+          </div>
         </div>
       </div>
     </footer>

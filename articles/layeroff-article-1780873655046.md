@@ -1,3 +1,10 @@
+---
+title: Less Is More in the Mountains: Casey Brown Architecture's PC3 Cabins Redefine the Sustainable Retreat
+source: ArchDaily
+sourceUrl: https://www.archdaily.com/1042203/permanent-camping-3-casey-brown-architecture
+tags: Prefabrication, Steel, Small buildings, Australia
+---
+
 <h1>Less Is More in the Mountains: Casey Brown Architecture's PC3 Cabins Redefine the Sustainable Retreat</h1>
 
 <h2>Project Overview</h2>

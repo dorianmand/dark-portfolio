@@ -1,3 +1,10 @@
+---
+title: Where Land Meets Water: González Olsina & Vega Arquitectos Craft a Meditative Architecture Along the Río de la Plata
+source: ArchDaily
+sourceUrl: https://www.archdaily.com/1040854/music-room-casa-la-flecha-gonzalez-olsina-and-vega-arquitectos
+tags: Housing, Landscape, Materiality, Uruguay
+---
+
 <h1>Where Land Meets Water: González Olsina & Vega Arquitectos Craft a Meditative Architecture Along the Río de la Plata</h1>
 
 <h2>Project Overview</h2>

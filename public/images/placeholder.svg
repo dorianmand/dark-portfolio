@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 1000" width="1600" height="1000" role="img" aria-label="Image placeholder">
+  <rect width="1600" height="1000" fill="#F4F1EA"/>
+  <rect x="0.5" y="0.5" width="1599" height="999" fill="none" stroke="#1A1815" stroke-opacity="0.14"/>
+  <line x1="0" y1="0" x2="1600" y2="1000" stroke="#1A1815" stroke-opacity="0.07"/>
+  <line x1="1600" y1="0" x2="0" y2="1000" stroke="#1A1815" stroke-opacity="0.07"/>
+  <g transform="translate(800 470)" text-anchor="middle" font-family="Inter, Helvetica, Arial, sans-serif">
+    <text y="0" font-size="30" letter-spacing="10" fill="#9A7B33">PLACEHOLDER</text>
+    <text y="52" font-size="23" fill="#1A1815" fill-opacity="0.5">Replace with a project image</text>
+    <text y="104" font-size="18" fill="#1A1815" fill-opacity="0.32">public/images/ — then set cover: in the project’s .md</text>
+  </g>
+</svg>

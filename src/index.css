@@ -10,34 +10,68 @@
   --color-text-primary: hsl(var(--text));
   --color-muted: hsl(var(--muted));
   --color-stroke: hsl(var(--stroke));
-  --animate-scroll-down: scroll-down 1.5s ease-in-out infinite;
+  --color-accent: hsl(var(--accent));
   --animate-role-fade-in: role-fade-in 0.4s ease-out;
-  --animate-gradient-shift: gradient-shift 6s ease infinite;
 }
 
+/*
+ * Palette derived from the Formwerk and Design Copilot project boards:
+ * warm cream ground, ink text, warm-grey secondary, single muted gold accent.
+ * See docs/positioning.md §12 and docs/rebrand-strategy.md §7.
+ *
+ * --stroke is intentionally dark. Borders are drawn at low opacity
+ * (border-stroke/20), which yields a warm hairline on the cream ground.
+ */
 :root {
-  --bg: 0 0% 96%;
-  --surface: 0 0% 8%;
-  --text: 0 0% 6%;
-  --muted: 0 0% 42%;
-  --stroke: 0 0% 12%;
-  --accent: 0 0% 96%;
+  --bg: 40 33% 96%;
+  --surface: 40 10% 12%;
+  --text: 40 8% 10%;
+  --muted: 40 6% 40%;
+  --stroke: 40 10% 14%;
+  --accent: 41 45% 42%;
   color-scheme: light;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; min-width: 320px; min-height: 100vh; overflow-x: hidden; background: hsl(var(--bg)); color: hsl(var(--text)); font-family: var(--font-body); }
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+  overflow-x: hidden;
+  background: hsl(var(--bg));
+  color: hsl(var(--text));
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
 button, a { -webkit-tap-highlight-color: transparent; }
-::selection { background: rgba(137,170,204,.35); color: hsl(var(--text)); }
+::selection { background: hsl(var(--accent) / 0.22); color: hsl(var(--text)); }
 
-.accent-gradient { background: linear-gradient(90deg, #FFD700 0%, #FF8C00 100%); }
-.accent-gradient-reverse { background: linear-gradient(90deg, #FF8C00 0%, #FFD700 100%); }
-.gradient-border { position: relative; }
-.gradient-border::before { content: ''; position: absolute; inset: -2px; border-radius: inherit; background: linear-gradient(90deg,#89AACC,#4E85BF,#89AACC); background-size: 200% 200%; opacity: 0; transition: opacity .3s ease; z-index: -1; animation: gradient-shift 6s ease infinite; }
-.gradient-border:hover::before { opacity: 1; }
-.halftone { background-image: radial-gradient(circle, #000 1px, transparent 1px); background-size: 4px 4px; }
+/* A single restrained accent, used only as a hairline rule. Never a gradient. */
+.rule-accent { border-color: hsl(var(--accent) / 0.55); }
 
-@keyframes scroll-down { 0% { transform: translateY(-100%); } 100% { transform: translateY(200%); } }
-@keyframes role-fade-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes gradient-shift { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+@keyframes role-fade-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/*
+ * Some people set "reduce motion" in their operating system — usually because
+ * movement triggers migraine, nausea or vertigo. Honouring it is required by
+ * CLAUDE.md and costs nothing: animation is removed, content is not.
+ */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

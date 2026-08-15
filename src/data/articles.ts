@@ -1,12 +1,23 @@
+import { parseFrontmatter } from '../lib/markdown';
+
 const articleModules = import.meta.glob('../../articles/*.md', {
   query: '?raw',
   import: 'default',
   eager: true,
 }) as Record<string, string>;
 
-function getSlugFromPath(path: string) {
-  return path.split('/').pop()?.replace('.md', '') || '';
-}
+export type Article = {
+  slug: string;
+  title: string;
+  url: string;
+  content: string;
+  excerpt: string;
+  /** Where the piece was originally published. Always credited when present. */
+  source?: string;
+  sourceUrl?: string;
+  date?: string;
+  tags: string[];
+};
 
 function stripHtml(content: string) {
   return content
@@ -20,33 +31,45 @@ function stripHtml(content: string) {
     .trim();
 }
 
-function getTitleFromMarkdown(content: string) {
-  const clean = stripHtml(content);
-  const heading = clean.match(/^#\s+(.+)$/m);
-  return heading ? heading[1].trim() : 'Untitled Article';
+function titleFrom(body: string) {
+  const heading = stripHtml(body).match(/^#\s+(.+)$/m);
+  return heading ? heading[1].trim() : 'Untitled';
 }
 
-function getExcerptFromMarkdown(content: string) {
-  return stripHtml(content)
+function excerptFrom(body: string) {
+  return stripHtml(body)
     .replace(/^#\s+.+$/m, '')
     .replace(/[#*_>`-]/g, '')
     .trim()
     .slice(0, 160);
 }
 
-export const articles = Object.entries(articleModules).map(([path, rawContent]) => {
-  const slug = getSlugFromPath(path);
-  const content = stripHtml(rawContent);
-  const title = getTitleFromMarkdown(rawContent);
+const splitTags = (value?: string) =>
+  (value ?? '')
+    .split(',')
+    .map((tag) => tag.trim())
+    .filter(Boolean);
 
-  return {
-    slug,
-    title,
-    date: 'Jun 7, 2026',
-    read: '4 min read',
-    image: 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?q=80&w=600&auto=format&fit=crop',
-    url: `/articles/${slug}`,
-    content,
-    excerpt: getExcerptFromMarkdown(rawContent),
-  };
-});
+export const articles: Article[] = Object.entries(articleModules).map(
+  ([path, raw]) => {
+    const { data, body } = parseFrontmatter(raw);
+    const slug = path.split('/').pop()?.replace('.md', '') ?? '';
+
+    return {
+      slug,
+      title: data.title || titleFrom(body),
+      url: `/news/${slug}`,
+      content: stripHtml(body),
+      excerpt: excerptFrom(body),
+      source: data.source || undefined,
+      sourceUrl: data.sourceUrl || undefined,
+      date: data.date || undefined,
+      tags: splitTags(data.tags),
+    };
+  },
+);
+
+/** Every tag used across the articles, alphabetical. */
+export const articleTags = [
+  ...new Set(articles.flatMap((article) => article.tags)),
+].sort((a, b) => a.localeCompare(b));
