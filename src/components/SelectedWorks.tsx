@@ -9,10 +9,10 @@ export function SelectedWorks() {
   const t = useT();
   const lang = useLang();
 
-  // The newest project (order: 1) gets a poster treatment above the list —
-  // same rule as the projects page, so a homepage visitor sees the latest
-  // shipped work as an update, not just another card in the row.
-  const [featured] = getProjects(lang);
+  // Exactly one project can carry `featured: true` in its frontmatter — that
+  // one gets the poster treatment above the homepage list, independent of
+  // its grid position (see Project['featured'] in data/projects.ts).
+  const featured = getProjects(lang).find((project) => project.featured);
   const showFeatured = Boolean(featured?.demoUrl);
 
   return (

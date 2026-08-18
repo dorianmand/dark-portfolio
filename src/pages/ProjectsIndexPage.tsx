@@ -2,9 +2,8 @@ import { useEffect, useState } from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { ProjectList } from '../components/ProjectList';
-import { FeaturedPoster } from '../components/FeaturedPoster';
 import { TagFilter } from '../components/TagFilter';
-import { getProjects, getProjectTags } from '../data/projects';
+import { getProjectTags } from '../data/projects';
 import { useLang } from '../lib/language';
 import { useT } from '../lib/i18n';
 import { useSeo } from '../lib/seo';
@@ -14,11 +13,6 @@ export function ProjectsIndexPage() {
   const t = useT();
   const lang = useLang();
   const projectTags = getProjectTags(lang);
-
-  // The newest project (order: 1) gets the poster treatment above the grid,
-  // but only while browsing unfiltered — it's an intro, not a filter result.
-  const [featured] = getProjects(lang);
-  const showFeatured = !tag && featured?.demoUrl;
 
   useSeo({
     title: t('page.work'),
@@ -48,9 +42,7 @@ export function ProjectsIndexPage() {
 
         <TagFilter tags={projectTags} active={tag} onChange={setTag} label={t('common.filterBy')} />
 
-        {showFeatured && <FeaturedPoster project={featured} />}
-
-        <ProjectList tag={tag} layout="grid" excludeSlug={showFeatured ? featured.slug : undefined} />
+        <ProjectList tag={tag} layout="grid" />
       </main>
 
       <Footer />

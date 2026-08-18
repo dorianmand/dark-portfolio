@@ -2,7 +2,7 @@
 title: Formwerk
 slug: formwerk
 group: Computational and AI systems
-order: 4
+order: 3
 year: 2026
 location: Berlin
 type: Web application

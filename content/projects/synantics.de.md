@@ -2,7 +2,7 @@
 title: Synantics
 slug: synantics
 group: Computational and AI systems
-order: 1
+order: 4
 year: 2026
 location: Berlin
 type: Webanwendung
@@ -11,8 +11,9 @@ role: Alleinige Konzeption und Umsetzung
 team: Solo
 tools: Node.js, Express, PostgreSQL, Zod, vanilla JavaScript, Three.js
 employer: None — own project
-cover: /images/synantics-title.gif
+cover: /images/synantics-poster.webp
 poster: /images/synantics-poster.webp
+featured: true
 demoUrl: https://synantics.layeroff.ai
 demoNote: Der Live-Build geht bei Inaktivität in den Ruhezustand; der erste Ladevorgang dauert daher ungefähr eine Minute. Der Walkthrough und die unten gezeigten Stage-Captures benötigen keinen Server.
 tags: KI, Naming, Webanwendung, Prozessdesign

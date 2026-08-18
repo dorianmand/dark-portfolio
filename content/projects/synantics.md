@@ -2,7 +2,7 @@
 title: Synantics
 slug: synantics
 group: Computational and AI systems
-order: 1
+order: 4
 year: 2026
 location: Berlin
 type: Web application
@@ -11,23 +11,14 @@ role: Sole author
 team: Solo
 tools: Node.js, Express, PostgreSQL, Zod, vanilla JavaScript, Three.js
 employer: None — own project
-cover: /images/synantics-title.gif
+cover: /images/synantics-poster.webp
 poster: /images/synantics-poster.webp
+featured: true
 demoUrl: https://synantics.layeroff.ai
 demoNote: The live build sleeps when idle, so the first load takes about a minute. The walkthrough and stage captures below need no server.
 tags: AI, Naming, Web app, Process design
 summary: Synantics is live. [Try it](https://synantics.layeroff.ai), a structured AI naming workflow that turns scattered thoughts into a clear naming direction. For the best results, add your own answers along the way. The more personal the input, the better the outcome.
 ---
-
-Synantics is live. A structured AI naming workflow that turns scattered thoughts
-into a clear naming direction, before generating a single name.
-
-For the best results, add your own answers along the way. The more personal the
-input, the better the outcome.
-
-[Try it →](https://synantics.layeroff.ai)
-
-Note: Please allow a couple of seconds for Render to load.
 
 The tool named itself. *Synantics* is a compound of synthesised semantics, and it
 came out of the system's own six stages — which is the shortest available proof
@@ -37,6 +28,13 @@ A name is the output of a decision sequence, not of a prompt. Synantics makes
 that sequence explicit: six stages, each one approved by the user before the next
 begins, so that by the time names are generated the meaning, the boundaries and
 the evaluation criteria already exist.
+
+Synantics is live. For the best results, add your own answers along the way. The
+more personal the input, the better the outcome.
+
+[Try it →](https://synantics.layeroff.ai/)
+
+Note: Please allow a couple of seconds for Render to load.
 
 ## The problem
 

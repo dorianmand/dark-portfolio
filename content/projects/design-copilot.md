@@ -2,7 +2,7 @@
 title: Design Copilot
 slug: design-copilot
 group: Computational and AI systems
-order: 3
+order: 2
 year: 2026
 location: Berlin
 type: Parametric design system

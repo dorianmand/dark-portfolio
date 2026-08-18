@@ -2,7 +2,7 @@
 title: CompAr
 slug: compar
 group: Computational and AI systems
-order: 2
+order: 1
 year: 2026
 location: Berlin
 type: Design system / research prototype

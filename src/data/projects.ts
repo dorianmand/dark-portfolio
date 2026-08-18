@@ -41,6 +41,13 @@ export type Project = {
    * a project doesn't need a second image just to be featured.
    */
   poster?: string;
+  /**
+   * Marks the project shown as the homepage's poster announcement. Separate
+   * from `order` on purpose — `order` controls grid position everywhere
+   * (including this project's own place in the projects-page grid), while
+   * `featured` controls only which one project gets the homepage banner.
+   */
+  featured?: boolean;
   demoUrl?: string;
   demoNote?: string;
   tags: string[];
@@ -85,6 +92,7 @@ function toProject(path: string, raw: string): Project {
     cover: data.cover,
     coverFit: (data.coverFit === 'contain' ? 'contain' : 'cover') as Project['coverFit'],
     poster: data.poster || undefined,
+    featured: data.featured === 'true',
     demoUrl: data.demoUrl || undefined,
     demoNote: data.demoNote || undefined,
     tags: (data.tags ?? '').split(',').map((t) => t.trim()).filter(Boolean),
