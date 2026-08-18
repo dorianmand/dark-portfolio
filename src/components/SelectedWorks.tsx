@@ -31,9 +31,9 @@ export function SelectedWorks() {
           </Link>
         </div>
 
-        {showFeatured && <FeaturedPoster project={featured} />}
+        {featured && showFeatured && <FeaturedPoster project={featured} />}
 
-        <ProjectList excludeSlug={showFeatured ? featured.slug : undefined} />
+        <ProjectList excludeSlug={featured && showFeatured ? featured.slug : undefined} />
       </div>
 
       <FieldsOfWork />
