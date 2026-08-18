@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://layeroff.ai/</loc>
+  </url>
+  <url>
+    <loc>https://layeroff.ai/projects</loc>
+  </url>
+  <url>
+    <loc>https://layeroff.ai/research</loc>
+  </url>
+  <url>
+    <loc>https://layeroff.ai/profile</loc>
+  </url>
+  <url>
+    <loc>https://layeroff.ai/impressum</loc>
+  </url>
+  <url>
+    <loc>https://layeroff.ai/projects/compar</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/projects/compar" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/projects/compar" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/de/projects/compar</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/projects/compar" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/projects/compar" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/projects/design-copilot</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/projects/design-copilot" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/projects/design-copilot" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/de/projects/design-copilot</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/projects/design-copilot" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/projects/design-copilot" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/projects/formwerk</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/projects/formwerk" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/projects/formwerk" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/de/projects/formwerk</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/projects/formwerk" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/projects/formwerk" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/projects/synantics</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/projects/synantics" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/projects/synantics" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/de/projects/synantics</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/projects/synantics" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/projects/synantics" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/news/ai-in-architecture-framework</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/news/ai-in-architecture-framework" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/news/ai-in-architecture-framework" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/de/news/ai-in-architecture-framework</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/news/ai-in-architecture-framework" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/news/ai-in-architecture-framework" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/news/state-of-ai-in-architecture-2024</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/news/state-of-ai-in-architecture-2024" />
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/news/state-of-ai-in-architecture-2024" />
+  </url>
+  <url>
+    <loc>https://layeroff.ai/de/news/state-of-ai-in-architecture-2024</loc>
+    <xhtml:link rel="alternate" hreflang="de" href="https://layeroff.ai/de/news/state-of-ai-in-architecture-2024" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://layeroff.ai/news/state-of-ai-in-architecture-2024" />
+  </url>
+</urlset>

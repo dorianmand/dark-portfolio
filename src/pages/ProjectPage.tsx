@@ -1,12 +1,23 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
+import { LocalizedLink as Link, useLang } from '../lib/language';
+import { useT } from '../lib/i18n';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { renderMarkdown } from '../lib/markdown';
 import { getProject, metadataFields, projects } from '../data/projects';
+import { useSeo } from '../lib/seo';
 
 export function ProjectPage() {
   const { slug } = useParams();
-  const project = slug ? getProject(slug) : undefined;
+  const lang = useLang();
+  const t = useT();
+  const project = slug ? getProject(slug, lang) : undefined;
+
+  useSeo({
+    title: project ? project.title : t('error.projectNotFound'),
+    description: project?.summary || 'This project could not be found.',
+    noindex: !project,
+  });
 
   if (!project) {
     return (
@@ -14,10 +25,10 @@ export function ProjectPage() {
         <Navbar />
         <main className="mx-auto max-w-[900px] px-6 py-40 md:px-10">
           <h1 className="mb-8 text-4xl tracking-tight md:text-5xl">
-            Project not found
+            {t('error.projectNotFound')}
           </h1>
           <Link to="/projects" className="text-muted underline underline-offset-4">
-            All projects
+            {t('common.allProjects')}
           </Link>
         </main>
         <Footer />
@@ -26,18 +37,19 @@ export function ProjectPage() {
   }
 
   const index = projects.findIndex((p) => p.slug === project.slug);
-  const next = projects[(index + 1) % projects.length];
+  const nextSlug = projects[(index + 1) % projects.length];
+  const next = nextSlug ? getProject(nextSlug.slug, lang) : undefined;
 
   return (
     <>
       <Navbar />
 
-      <main className="mx-auto max-w-[1200px] px-6 pb-24 pt-36 md:px-10 md:pt-44 lg:px-16">
+      <main className="mx-auto max-w-[1200px] px-6 pb-24 pt-36 md:px-10 md:pt-52 lg:px-16">
         <Link
           to="/projects"
           className="mb-14 inline-block text-xs uppercase tracking-[0.2em] text-muted transition-opacity hover:opacity-60"
         >
-          ← Projects
+          {t('common.backProjects')}
         </Link>
 
         <header className="border-b border-stroke/20 pb-14">
@@ -59,7 +71,7 @@ export function ProjectPage() {
                 rel="noopener noreferrer"
                 className="inline-flex items-baseline gap-3 text-lg tracking-tight underline underline-offset-8 transition-opacity hover:opacity-60"
               >
-                Open the demo
+                {t('common.openDemo')}
                 <span aria-hidden="true">↗</span>
               </a>
 
@@ -89,7 +101,7 @@ export function ProjectPage() {
 
           <aside className="md:sticky md:top-32 md:self-start">
             <p className="mb-6 text-xs uppercase tracking-[0.3em] text-muted">
-              Project
+              {t('label.project')}
             </p>
 
             <dl className="border-t border-stroke/20">
@@ -100,10 +112,10 @@ export function ProjectPage() {
                 return (
                   <div
                     key={field.key}
-                    className="border-b border-stroke/12 py-3"
+                    className="border-b border-stroke/12 py-3 last:border-b-0"
                   >
                     <dt className="text-xs uppercase tracking-[0.15em] text-muted/70">
-                      {field.label}
+                      {t(field.label)}
                     </dt>
                     <dd className="mt-1 text-sm leading-relaxed text-text-primary">
                       {value}
@@ -118,7 +130,7 @@ export function ProjectPage() {
         {next && next.slug !== project.slug && (
           <div className="mt-28 border-t border-stroke/20 pt-10">
             <p className="mb-3 text-xs uppercase tracking-[0.3em] text-muted">
-              Next project
+              {t('common.nextProject')}
             </p>
 
             <Link

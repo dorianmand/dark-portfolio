@@ -59,7 +59,7 @@ If a sentence would survive on an agency homepage, it does not belong here.
 
 Working draft for the homepage, directly under the hero:
 
-> I am an architect with thirteen years of practice across HOAI phases 1–8, most
+> I am an architect with thirteen years of practice across HOAI phases 1–6, most
 > recently as office director at Wiel Arets Architects and senior architect at
 > Graft. I build computational and AI systems for the parts of that work I know
 > from the inside: competition strategy, parametric design control, and building
@@ -75,7 +75,7 @@ The final sentence is the thesis of the site. Everything else supports it.
 Replaces "services". Three labels, descriptive not transactional, no prices, no
 deliverables list, no "get in touch to discuss":
 
-- **Architecture** — HOAI 1–8, project leadership, permit and construction documentation.
+- **Architecture** — HOAI 1–6, project leadership, permit and construction documentation.
 - **Computational design** — Rhino, Grasshopper, parametric control, geometry as data.
 - **Applied AI** — agent workflows, structured document processing, rule-based evaluation.
 

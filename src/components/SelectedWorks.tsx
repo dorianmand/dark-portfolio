@@ -1,25 +1,42 @@
-import { Link } from 'react-router-dom';
+import { LocalizedLink as Link, useLang } from '../lib/language';
 import { ProjectList } from './ProjectList';
+import { FeaturedPoster } from './FeaturedPoster';
+import { FieldsOfWork } from './FieldsOfWork';
+import { useT } from '../lib/i18n';
+import { getProjects } from '../data/projects';
 
 export function SelectedWorks() {
+  const t = useT();
+  const lang = useLang();
+
+  // The newest project (order: 1) gets a poster treatment above the list —
+  // same rule as the projects page, so a homepage visitor sees the latest
+  // shipped work as an update, not just another card in the row.
+  const [featured] = getProjects(lang);
+  const showFeatured = Boolean(featured?.demoUrl);
+
   return (
-    <section id="work" className="relative bg-bg py-16 md:py-24">
+    <section id="work" aria-label="Selected work" className="relative bg-bg py-16 md:py-24">
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
-        <div className="mb-12 flex items-baseline justify-between">
-          <p className="text-xs uppercase tracking-[0.3em] text-muted">
-            Selected work
-          </p>
+        <div className="mb-12 flex items-baseline justify-between gap-6">
+          <h2 className="text-xs uppercase tracking-[0.3em] text-muted">
+            {t('label.selectedWork')}
+          </h2>
 
           <Link
             to="/projects"
-            className="text-xs uppercase tracking-[0.2em] text-muted transition-opacity hover:opacity-60"
+            className="text-xs uppercase tracking-[0.2em] text-muted transition-opacity hover:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
           >
-            All projects →
+            {t('common.allProjects')} →
           </Link>
         </div>
 
-        <ProjectList />
+        {showFeatured && <FeaturedPoster project={featured} />}
+
+        <ProjectList excludeSlug={showFeatured ? featured.slug : undefined} />
       </div>
+
+      <FieldsOfWork />
     </section>
   );
 }

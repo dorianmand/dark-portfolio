@@ -2,7 +2,7 @@
 title: Design Copilot
 slug: design-copilot
 group: Computational and AI systems
-order: 2
+order: 3
 year: 2026
 location: Berlin
 type: Parametric design system
@@ -16,11 +16,9 @@ tags: Grasshopper, Parametric, Rule-based, Environmental analysis, Python
 summary: Parametric building control in Grasshopper with rule-based design critique and environmental analysis.
 ---
 
-## Thesis
-
 A parametric model that only produces geometry is a drawing machine. Design
 Copilot closes the loop: every slider change recomputes the building's key
-figures, tests them against defined rules, and reports back inside the model —
+figures, tests them against defined rules and reports back inside the model —
 so the consequence of a decision arrives at the moment the decision is made,
 not three weeks later in a consultant's report.
 
@@ -42,7 +40,7 @@ Sliders → Building Control → JSON data basis → Critique loop → Critique 
 ```
 
 **01 Parametric building control.** Sliders drive building height, storey count
-and storey height, orientation, plot length and width, building depth, and roof
+and storey height, orientation, plot length and width, building depth and roof
 offset. Each change recomputes the downstream geometry and data.
 
 **02 Building control and data basis.** Python computes GRZ (*Grundflächenzahl*,
@@ -68,16 +66,32 @@ gallery access) with core count and position derived from floor area and escape
 distances; unit mix against a target distribution; parametric façade with window
 ratio, bay grid and material zones; atrium cut for daylight penetration, checked
 for height-to-width ratio and smoke extraction; loggias and balconies rated on
-their effect on net floor area, overshadowing of lower storeys, and the
+their effect on net floor area, overshadowing of lower storeys and the
 proportion of dwellings with outdoor space.
 
 The progression the system describes is from mass checker to building system:
 each module adds a layer without replacing the one beneath it.
 
+## The system in use
+
+![Grasshopper canvas — building control feeding the critique loop](/images/design-copilot-01.jpg)
+
+![Ladybug branch — sun path and direct sun hours against the parametric massing](/images/design-copilot-02.jpg)
+
+![Rhino viewport — direct sun hours on the generated volume](/images/design-copilot-03.jpg)
+
+![Grasshopper output — collective housing, from organisational profile to parametric geometry](/images/design-copilot-04.jpg)
+
+![Baukörpermodulierungsbibliothek — modular typology system for analysable variants](/images/design-copilot-05.jpg)
+
+![Residential Circulation Library — twelve access typologies with stair and elevator cores](/images/design-copilot-06.jpg)
+
+![Poster 05 — Transformation and Facade Library (Phase 3D)](/images/design-copilot-07.jpg)
+
 ## My contribution
 
 Sole author. I built the parametric definition, wrote the Python evaluation and
-rule layer, defined the JSON contract between components, and integrated Ladybug
+rule layer, defined the JSON contract between components and integrated Ladybug
 into the critique loop.
 
 ## Known limitation
@@ -96,8 +110,6 @@ a parameter change. This is the next piece of work.
   comparing variants — not a substitute for a specialist's report.
 - Not a product. It runs inside a Grasshopper definition, not as software anyone
   can install.
-
-## What I learned
 
 The valuable part turned out to be the JSON layer, not the geometry. Once the
 building's figures existed as data with a change timestamp, adding a new

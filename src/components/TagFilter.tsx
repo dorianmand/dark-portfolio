@@ -1,3 +1,5 @@
+import { useT } from '../lib/i18n';
+
 type TagFilterProps = {
   tags: string[];
   active: string | null;
@@ -6,6 +8,8 @@ type TagFilterProps = {
 };
 
 export function TagFilter({ tags, active, onChange, label = 'Filter' }: TagFilterProps) {
+  const t = useT();
+
   if (!tags.length) return null;
 
   return (
@@ -23,7 +27,7 @@ export function TagFilter({ tags, active, onChange, label = 'Filter' }: TagFilte
               : 'text-muted hover:text-text-primary'
           }`}
         >
-          All
+          {t('common.all')}
         </button>
 
         {tags.map((tag) => (

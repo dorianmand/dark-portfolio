@@ -1,20 +1,44 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
 import { ProjectList } from '../components/ProjectList';
+import { FeaturedPoster } from '../components/FeaturedPoster';
 import { TagFilter } from '../components/TagFilter';
-import { projectTags } from '../data/projects';
+import { getProjects, getProjectTags } from '../data/projects';
+import { useLang } from '../lib/language';
+import { useT } from '../lib/i18n';
+import { useSeo } from '../lib/seo';
 
 export function ProjectsIndexPage() {
   const [tag, setTag] = useState<string | null>(null);
+  const t = useT();
+  const lang = useLang();
+  const projectTags = getProjectTags(lang);
+
+  // The newest project (order: 1) gets the poster treatment above the grid,
+  // but only while browsing unfiltered — it's an intro, not a filter result.
+  const [featured] = getProjects(lang);
+  const showFeatured = !tag && featured?.demoUrl;
+
+  useSeo({
+    title: t('page.work'),
+    description:
+      'Computational and AI systems built for architectural work, alongside projects delivered in practice.',
+  });
+
+  // Tags are themselves translated, so a filter picked in one language matches
+  // nothing in the other. Clear it on switch rather than showing an empty grid.
+  useEffect(() => {
+    setTag(null);
+  }, [lang]);
 
   return (
     <>
       <Navbar />
 
-      <main className="mx-auto max-w-[1200px] px-6 pb-24 pt-36 md:px-10 md:pt-44 lg:px-16">
+      <main className="mx-auto max-w-[1200px] px-6 pb-24 pt-36 md:px-10 md:pt-52 lg:px-16">
         <h1 className="mb-6 text-5xl leading-[1.05] tracking-tight md:text-7xl">
-          Projects
+          {t('page.work')}
         </h1>
 
         <p className="mb-20 max-w-2xl text-lg leading-relaxed text-muted">
@@ -22,9 +46,11 @@ export function ProjectsIndexPage() {
           projects delivered in practice.
         </p>
 
-        <TagFilter tags={projectTags} active={tag} onChange={setTag} label="Filter by" />
+        <TagFilter tags={projectTags} active={tag} onChange={setTag} label={t('common.filterBy')} />
 
-        <ProjectList tag={tag} />
+        {showFeatured && <FeaturedPoster project={featured} />}
+
+        <ProjectList tag={tag} layout="grid" excludeSlug={showFeatured ? featured.slug : undefined} />
       </main>
 
       <Footer />

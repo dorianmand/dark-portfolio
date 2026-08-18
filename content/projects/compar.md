@@ -2,7 +2,7 @@
 title: CompAr
 slug: compar
 group: Computational and AI systems
-order: 1
+order: 2
 year: 2026
 location: Berlin
 type: Design system / research prototype
@@ -16,8 +16,6 @@ tags: AI, Competition, Grasshopper, Spatial strategy, Python
 summary: A system for translating architecture competition briefs into structured, validated design strategies.
 ---
 
-## Thesis
-
 Architecture emerges from relationships, not from form. CompAr is built on that
 premise: instead of generating shapes and looking for a justification afterwards,
 it makes the relationships in a competition brief explicit — who needs to be near
@@ -28,9 +26,9 @@ then allows geometry to follow.
 
 A competition brief, the *Auslobung*, arrives as a hundred pages of prose,
 schedules and constraints. Every practice does the same work at the start: read
-it, extract the room programme and the areas, guess at what the jury values, and
+it, extract the room programme and the areas, guess at what the jury values and
 convert all of that into a design position under time pressure. The reading is
-manual, the conversion is undocumented, and by the time a scheme exists nobody
+manual, the conversion is undocumented and by the time a scheme exists nobody
 can reconstruct which decision came from the brief and which came from habit.
 
 The failure mode is not a lack of ideas. It is that the strategy behind a scheme
@@ -65,11 +63,37 @@ distributes private, semi-private, shared and public space. It sits between the
 programme graph and the geometry, and it is what stops the system from jumping
 straight from a spreadsheet to a shape.
 
+## The system in use
+
+![Brief intake — the Auslobung parsed into programme, areas and deadline](/images/compar-01.jpg)
+
+![Programme — room schedule with public, semi-public and private classification](/images/compar-02.jpg)
+
+![Organisational logic — candidate typologies scored against the brief](/images/compar-03.jpg)
+
+![Organisational logic 01 — Courtyard Community, expanded](/images/compar-04.jpg)
+
+![Organisational logic 01 — Platform](/images/compar-05.jpg)
+
+![Organisational logic 01 — Spine Organization](/images/compar-06.jpg)
+
+![Concept lock — terraced courtyard confirmed by the architect](/images/compar-07.jpg)
+
+![Dashboard, brief, site envelope, variant generation and comparison](/images/compar-08.jpg)
+
+![Poster 01 — Organisational Logic Library (Phase 3B), twelve spatial strategies](/images/compar-09.jpg)
+
+![Poster 02 — Behavioral Logic Library (Phase 3C)](/images/compar-10.jpg)
+
+![Poster 03 — Morphology Library (Phase 3D)](/images/compar-11.jpg)
+
+![Poster 04 — Section Strategy Library (Phase 3C)](/images/compar-12.jpg)
+
 ## My contribution
 
 Sole author. I defined the phase architecture and the file contract between phases, wrote the
 organisational logic library, built the FastAPI backend and the Next.js
-dashboard, and implemented the Grasshopper interface through phase 5.
+dashboard and implemented the Grasshopper interface through phase 5.
 
 ## Deliberate limits
 

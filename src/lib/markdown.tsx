@@ -1,4 +1,6 @@
 import type { ReactNode } from 'react';
+import { Figure } from '../components/Figure';
+import { ImageGrid, type GridImage } from '../components/ImageGrid';
 
 /**
  * A narrow Markdown renderer, scoped to the syntax used in content/.
@@ -20,7 +22,11 @@ export function parseFrontmatter(raw: string): {
     const sep = line.indexOf(':');
     if (sep === -1) continue;
     const key = line.slice(0, sep).trim();
-    const value = line.slice(sep + 1).trim();
+    // A value may be quoted so it can contain a colon — "Title: Subtitle".
+    const value = line
+      .slice(sep + 1)
+      .trim()
+      .replace(/^(["'])([\s\S]*)\1$/, '$2');
     if (key) data[key] = value;
   }
 
@@ -99,7 +105,14 @@ export function renderMarkdown(body: string): ReactNode[] {
 
   const flushParagraph = (buffer: string[]) => {
     if (!buffer.length) return;
-    const text = buffer.join(' ').trim();
+    // A line ending in two spaces is a Markdown hard break. It is kept as a
+    // newline here so the paragraph can render it as <br>; every other line
+    // soft-wraps into the one before it.
+    const text = buffer
+      .map((entry) => (/ {2,}$/.test(entry) ? `${entry.trim()}\n` : entry.trim()))
+      .join(' ')
+      .replace(/\n /g, '\n')
+      .trim();
     buffer.length = 0;
     if (!text) return;
 
@@ -123,9 +136,17 @@ export function renderMarkdown(body: string): ReactNode[] {
       return;
     }
 
+    const cleaned = text.replace(CONFIRM, '');
+    const parts = cleaned.split('\n');
+
     out.push(
       <p key={`k${key++}`} className="mb-6 leading-relaxed text-muted">
-        {inline(text.replace(CONFIRM, ''), `k${key}`)}
+        {parts.map((part, n) => (
+          <span key={n}>
+            {n > 0 && <br />}
+            {inline(part, `k${key}-${n}`)}
+          </span>
+        ))}
       </p>,
     );
   };
@@ -156,6 +177,21 @@ export function renderMarkdown(body: string): ReactNode[] {
       continue;
     }
 
+    // ::figure /images/x.webp | alt text | Caption text
+    // A full-width research figure: alt and caption are separate, and the
+    // board opens in a lightbox because it carries type too small for a
+    // body-width column.
+    const figure = line.trim().match(/^::figure\s+(.+)$/);
+    if (figure) {
+      flushParagraph(paragraph);
+      const [src, alt, caption] = figure[1].split('|').map((part) => part.trim());
+      out.push(
+        <Figure key={`k${key++}`} src={src} alt={alt ?? ''} caption={caption} />,
+      );
+      i++;
+      continue;
+    }
+
     // ::video /media/file.mp4 | /images/poster.jpg | caption
     const video = line.trim().match(/^::video\s+(.+)$/);
     if (video) {
@@ -169,7 +205,7 @@ export function renderMarkdown(body: string): ReactNode[] {
             controls
             preload="none"
             playsInline
-            className="w-full border border-stroke/10 bg-stroke/[0.04]"
+            className="w-full bg-stroke/[0.04]"
           />
           {caption && (
             <figcaption className="mt-3 text-sm text-muted">{caption}</figcaption>
@@ -180,26 +216,51 @@ export function renderMarkdown(body: string): ReactNode[] {
       continue;
     }
 
-    // Image on its own line → figure
-    const image = line.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/);
-    if (image) {
+    // Images: a run of consecutive image lines becomes a two-column grid with
+    // a lightbox. A single image stays full width. Blank lines between images
+    // do not break the run.
+    const imageAt = (n: number) =>
+      lines[n]?.trim().match(/^!\[([^\]]*)\]\(([^)]+)\)$/) ?? null;
+
+    if (imageAt(i)) {
       flushParagraph(paragraph);
-      out.push(
-        <figure key={`k${key++}`} className="my-12">
-          <img
-            src={image[2]}
-            alt={image[1]}
-            loading="lazy"
-            className="w-full border border-stroke/10"
-          />
-          {image[1] && (
-            <figcaption className="mt-3 text-sm text-muted">
-              {image[1]}
-            </figcaption>
-          )}
-        </figure>,
-      );
-      i++;
+      const run: GridImage[] = [];
+      let j = i;
+
+      while (j < lines.length) {
+        const m = imageAt(j);
+        if (m) {
+          run.push({ alt: m[1], src: m[2] });
+          j++;
+        } else if (!lines[j].trim() && imageAt(j + 1)) {
+          j++;
+        } else {
+          break;
+        }
+      }
+
+      if (run.length === 1) {
+        const only = run[0];
+        out.push(
+          <figure key={`k${key++}`} className="my-12">
+            <img
+              src={only.src}
+              alt={only.alt}
+              loading="lazy"
+              className="w-full"
+            />
+            {only.alt && (
+              <figcaption className="mt-3 text-sm text-muted">
+                {only.alt}
+              </figcaption>
+            )}
+          </figure>,
+        );
+      } else {
+        out.push(<ImageGrid key={`k${key++}`} images={run} />);
+      }
+
+      i = j;
       continue;
     }
 
@@ -247,6 +308,25 @@ export function renderMarkdown(body: string): ReactNode[] {
             </tbody>
           </table>
         </div>,
+      );
+      continue;
+    }
+
+    // Blockquote — used for pull quotes such as the north star statement.
+    if (line.trimStart().startsWith('>')) {
+      flushParagraph(paragraph);
+      const quote: string[] = [];
+      while (i < lines.length && lines[i].trimStart().startsWith('>')) {
+        quote.push(lines[i].trimStart().replace(/^>\s?/, ''));
+        i++;
+      }
+      out.push(
+        <blockquote
+          key={`k${key++}`}
+          className="my-10 border-l-2 border-accent/50 pl-6 text-lg leading-relaxed tracking-tight text-text-primary md:text-xl"
+        >
+          {inline(quote.join(' ').trim(), `q${key}`)}
+        </blockquote>,
       );
       continue;
     }
@@ -317,7 +397,9 @@ export function renderMarkdown(body: string): ReactNode[] {
       continue;
     }
 
-    paragraph.push(line.trim());
+    // Only the leading indent is dropped — a trailing double space is a hard
+    // break and has to survive as far as flushParagraph.
+    paragraph.push(line.replace(/^\s+/, ''));
     i++;
   }
 

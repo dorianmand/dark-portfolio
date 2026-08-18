@@ -1,126 +1,156 @@
+import type { ReactNode } from 'react';
 import { Navbar } from '../components/Navbar';
 import { Footer } from '../components/Footer';
+import { useSeo } from '../lib/seo';
 
 /**
- * § 5 DDG requires a ladungsfähige Anschrift — a real, servable postal address,
- * not a P.O. box. Address and telephone confirmed by Dorian, 15 Aug 2026.
+ * § 5 DDG requires a ladungsfähige Anschrift — a real, servable postal address.
+ * Address, telephone and chamber details confirmed by Dorian, 15 Aug 2026.
  */
-const CONTENT = {
-  name: 'Dorian Mandzukic',
-  street: 'Karlsgartenstraße 18',
-  city: '12049 Berlin',
-  country: 'Deutschland',
-  email: 'hello@layeroff.ai',
-  phone: '+49 176 41507345',
-  profession: 'Architekt',
-  professionState: 'verliehen in der Bundesrepublik Deutschland',
-  chamber: 'Architektenkammer Berlin',
-  chamberNumber: '19862',
-  regulations: 'Architekten- und Baukammergesetz Berlin (ABKG)',
-  regulationsUrl: 'https://www.ak-berlin.de',
-};
 
-function Row({ label, children }: { label: string; children: React.ReactNode }) {
+const link =
+  'underline decoration-accent/50 underline-offset-4 transition-opacity hover:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent';
+
+function Row({ label, children }: { label: string; children: ReactNode }) {
   return (
-    <div className="border-b border-stroke/12 py-4">
-      <dt className="text-xs uppercase tracking-[0.15em] text-muted/70">
+    <div className="grid gap-3 border-b border-stroke/15 py-8 md:grid-cols-12 md:gap-10">
+      <h2 className="text-xs uppercase tracking-[0.2em] text-muted md:col-span-3">
         {label}
-      </dt>
-      <dd className="mt-1 text-base leading-relaxed text-text-primary">
+      </h2>
+
+      <div className="space-y-3 text-base leading-relaxed text-text-primary md:col-span-9 md:text-lg">
         {children}
-      </dd>
+      </div>
     </div>
   );
 }
 
 export function ImpressumPage() {
+  useSeo({
+    title: 'Impressum',
+    description: 'Information pursuant to Section 5 of the German Digital Services Act (DDG).',
+  });
+
   return (
     <>
       <Navbar />
 
-      <main className="mx-auto max-w-[760px] px-6 pb-24 pt-36 md:px-10 md:pt-44">
-        <h1 className="mb-6 text-4xl leading-[1.1] tracking-tight md:text-5xl">
+      <main className="mx-auto max-w-[1200px] px-6 pb-24 pt-36 md:px-10 md:pt-52 lg:px-16">
+        <h1 className="mb-5 text-5xl leading-[1.05] tracking-tight md:text-7xl">
           Impressum
         </h1>
 
-        <p className="mb-14 text-base leading-relaxed text-muted">
-          Angaben gemäß § 5 DDG.
+        <p className="mb-16 max-w-2xl text-base leading-relaxed text-muted md:text-lg">
+          Information pursuant to Section 5 of the German Digital Services Act
+          (DDG).
         </p>
 
-        <dl className="border-t border-stroke/20">
-          <Row label="Verantwortlich für den Inhalt">
-            {CONTENT.name}
-            <br />
-            {CONTENT.street}
-            <br />
-            {CONTENT.city}
-            <br />
-            {CONTENT.country}
+        <div className="border-t border-stroke/15">
+          <Row label="Provider">
+            <p>
+              Dorian Mandzukic
+              <br />
+              Karlsgartenstraße 18
+              <br />
+              12049 Berlin
+              <br />
+              Germany
+            </p>
           </Row>
 
-          <Row label="Kontakt">
-            <a
-              href={`mailto:${CONTENT.email}`}
-              className="underline underline-offset-4 transition-opacity hover:opacity-60"
-            >
-              {CONTENT.email}
-            </a>
-            <br />
-            <a
-              href={`tel:${CONTENT.phone.replace(/\s/g, '')}`}
-              className="underline underline-offset-4 transition-opacity hover:opacity-60"
-            >
-              {CONTENT.phone}
-            </a>
+          <Row label="Contact">
+            <p>
+              Email:{' '}
+              <a href="mailto:hello@layeroff.ai" className={link}>
+                hello@layeroff.ai
+              </a>
+              <br />
+              Telephone:{' '}
+              <a href="tel:+4917641507345" className={link}>
+                +49 176 41507345
+              </a>
+            </p>
           </Row>
 
-          <Row label="Berufsbezeichnung">
-            {CONTENT.profession}, {CONTENT.professionState}
+          <Row label="Professional title">
+            <p>
+              Architect
+              <br />
+              Professional title awarded in the Federal Republic of Germany
+            </p>
           </Row>
 
-          <Row label="Zuständige Kammer">
-            {CONTENT.chamber}
-            <br />
-            Mitgliedsnummer {CONTENT.chamberNumber}
-            <br />
-            <a
-              href={CONTENT.regulationsUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="underline underline-offset-4 transition-opacity hover:opacity-60"
-            >
-              {CONTENT.regulationsUrl.replace('https://', '')} ↗
-            </a>
-          </Row>
-
-          <Row label="Berufsrechtliche Regelungen">
-            {CONTENT.regulations}
-          </Row>
-        </dl>
-
-        <div className="mt-16 space-y-6 border-t border-stroke/20 pt-10 text-sm leading-relaxed text-muted">
-          <div>
-            <p className="mb-2 text-xs uppercase tracking-[0.15em] text-muted/70">
-              Urheberrecht
+          <Row label="Competent chamber">
+            <p>
+              Berlin Chamber of Architects
+              <br />
+              Alte Jakobstraße 149
+              <br />
+              10969 Berlin
+              <br />
+              Germany
+              <br />
+              Membership number: 19862
             </p>
             <p>
-              © 2026 Dorian Mandzukic. Alle Inhalte dieser Website — Texte,
-              Zeichnungen, Diagramme, Fotografien und Quellcode — sind
-              urheberrechtlich geschützt. Projekte, die in Zusammenarbeit mit
-              Büros entstanden sind, werden auf der jeweiligen Projektseite
-              entsprechend gekennzeichnet; die Rechte an diesen Arbeiten liegen
-              bei den jeweiligen Urhebern. Beiträge im Bereich „News“ fassen
-              fremde Veröffentlichungen zusammen und verweisen jeweils auf die
-              Originalquelle.
+              <a
+                href="https://www.ak-berlin.de"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={link}
+              >
+                www.ak-berlin.de{' '}
+                <span className="text-accent" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
             </p>
-          </div>
+          </Row>
 
-          <div>
-            <p className="mb-2 text-xs uppercase tracking-[0.15em] text-muted/70">
-              Stand
+          <Row label="Professional regulations">
+            <p>
+              Berlin Architects’ and Building Chamber Act (ABKG)
+              <br />
+              Professional Code of Conduct of the Berlin Chamber of Architects
             </p>
-            <p>August 2026</p>
-          </div>
+            <p>
+              <a
+                href="https://www.ak-berlin.de/architektenkammer-berlin/regelwerke/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className={link}
+              >
+                www.ak-berlin.de/architektenkammer-berlin/regelwerke{' '}
+                <span className="text-accent" aria-hidden="true">
+                  ↗
+                </span>
+              </a>
+            </p>
+          </Row>
+
+          <Row label="Editorial content">
+            <p className="text-muted">
+              Responsible for journalistic and editorial content pursuant to
+              Section 18(2) of the German State Media Treaty (MStV):
+            </p>
+            <p>
+              Dorian Mandzukic
+              <br />
+              Karlsgartenstraße 18
+              <br />
+              12049 Berlin
+              <br />
+              Germany
+            </p>
+          </Row>
+
+          <Row label="Copyright">
+            <p className="max-w-2xl text-muted">
+              © 2026 Dorian Mandzukic. The content and works published on this
+              website are protected by German copyright law unless otherwise
+              indicated.
+            </p>
+          </Row>
         </div>
       </main>
 
