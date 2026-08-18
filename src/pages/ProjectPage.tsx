@@ -57,7 +57,7 @@ export function ProjectPage() {
             {project.title}
           </h1>
 
-          {project.summary && (
+          {project.summary && !project.demoUrl && (
             <p className="mt-6 max-w-2xl text-lg leading-relaxed text-muted md:text-xl">
               {project.summary}
             </p>
