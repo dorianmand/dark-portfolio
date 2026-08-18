@@ -17,7 +17,7 @@ featured: true
 demoUrl: https://synantics.layeroff.ai
 demoNote: The live build sleeps when idle, so the first load takes about a minute. The walkthrough and stage captures below need no server.
 tags: AI, Naming, Web app, Process design
-summary: Synantics is live. [Try it](https://synantics.layeroff.ai), a structured AI naming workflow that turns scattered thoughts into a clear naming direction. For the best results, add your own answers along the way. The more personal the input, the better the outcome.
+summary: Synantics is live. Try it, a structured AI naming workflow that turns scattered thoughts into a clear naming direction. For the best results, add your own answers along the way. The more personal the input, the better the outcome.
 ---
 
 The tool named itself. *Synantics* is a compound of synthesised semantics, and it
