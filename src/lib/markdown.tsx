@@ -35,7 +35,12 @@ export function parseFrontmatter(raw: string): {
 
 const CONFIRM = /\{\{CONFIRM:([\s\S]*?)\}\}/g;
 
-function inline(text: string, keyPrefix: string): ReactNode[] {
+/**
+ * Exported so short one-off strings outside the body pipeline (e.g. a
+ * project's `summary` frontmatter) can carry an inline `[text](url)` link or
+ * emphasis without pulling in the full block-level renderMarkdown parser.
+ */
+export function inline(text: string, keyPrefix: string): ReactNode[] {
   const pattern =
     /(\*\*[^*]+\*\*|\*[^*]+\*|`[^`]+`|\[[^\]]+\]\([^)]+\))/g;
   const out: ReactNode[] = [];

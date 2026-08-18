@@ -1,5 +1,6 @@
 import { LocalizedLink as Link } from '../lib/language';
 import { useT } from '../lib/i18n';
+import { inline } from '../lib/markdown';
 import type { Project } from '../data/projects';
 
 type FeaturedPosterProps = {
@@ -41,8 +42,8 @@ export function FeaturedPoster({ project }: FeaturedPosterProps) {
       </a>
 
       <div className="mt-6 flex flex-col gap-3 md:flex-row md:items-baseline md:justify-between md:gap-10">
-        <p className="max-w-2xl text-base leading-relaxed text-muted md:text-lg">
-          {project.summary}
+        <p className="max-w-2xl text-base leading-relaxed text-muted md:text-lg [&_a]:text-text-primary [&_a]:underline [&_a]:underline-offset-4 [&_a]:transition-opacity hover:[&_a]:opacity-60">
+          {inline(project.summary, 'poster-summary')}
         </p>
 
         <Link
