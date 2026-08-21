@@ -1,5 +1,6 @@
 import { LocalizedLink as Link } from '../lib/language';
 import { useT } from '../lib/i18n';
+import { AnimatedGridDivider } from './AnimatedGridDivider';
 
 export type ResearchEntry = {
   n: string;
@@ -79,7 +80,9 @@ export function Research() {
           practice, computational workflows and design decision-making.
         </p>
 
-        <ul className="border-t border-stroke/15">
+        <AnimatedGridDivider contained={false} />
+
+        <ul>
           {researchEntries.map((entry) => (
             <li
               key={entry.n}

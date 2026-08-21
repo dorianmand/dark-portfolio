@@ -1,5 +1,6 @@
 import { LocalizedLink as Link } from '../lib/language';
 import { useT } from '../lib/i18n';
+import { AnimatedGridDivider } from './AnimatedGridDivider';
 
 export function Profile() {
   const t = useT();
@@ -20,7 +21,9 @@ export function Profile() {
           </Link>
         </div>
 
-        <div className="max-w-2xl space-y-5 border-t border-stroke/15 pt-10 text-base leading-relaxed text-muted md:text-lg">
+        <AnimatedGridDivider contained={false} />
+
+        <div className="max-w-2xl space-y-5 text-base leading-relaxed text-muted md:text-lg">
           <p className="text-text-primary">
             I am a Berlin-based architect and project lead with 13 years of
             experience across HOAI phases 1–8, from competitions and early

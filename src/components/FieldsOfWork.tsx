@@ -1,4 +1,5 @@
 import { useT } from '../lib/i18n';
+import { AnimatedGridDivider } from './AnimatedGridDivider';
 
 const fields = [
   {
@@ -38,7 +39,9 @@ export function FieldsOfWork() {
         {t('label.fieldsOfWork')}
       </h3>
 
-      <ul className="border-t border-stroke/15">
+      <AnimatedGridDivider contained={false} />
+
+      <ul>
         {fields.map((field) => (
           <li
             key={field.n}

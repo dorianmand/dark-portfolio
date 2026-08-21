@@ -1,4 +1,5 @@
 import { useT } from '../lib/i18n';
+import { AnimatedGridDivider } from './AnimatedGridDivider';
 
 const links = [
   { name: 'LinkedIn', url: 'https://www.linkedin.com/in/dorian-mandzukic' },
@@ -16,7 +17,9 @@ export function Contact() {
           {t('label.contact')}
         </h2>
 
-        <div className="border-t border-stroke/15 pt-10">
+        <AnimatedGridDivider contained={false} />
+
+        <div>
           <p className="max-w-xl text-base leading-relaxed text-muted md:text-lg">
             Based in Berlin. For general inquiries, computational design, AI in
             architectural practice or the projects shown here.
