@@ -69,8 +69,15 @@ export function Research() {
   const t = useT();
 
   return (
-    <section id="research" aria-label="Research" className="bg-bg py-16 md:py-24">
+    <section
+      id="research"
+      aria-label="Research"
+      className="relative isolate bg-bg py-16 md:py-24"
+    >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
+        {/* Junction between the profile block and the research list. */}
+        <AnimatedGridDivider contained={false} />
+
         <h2 className="mb-5 text-xs uppercase tracking-[0.3em] text-muted">
           {t('label.research')}
         </h2>
@@ -80,13 +87,11 @@ export function Research() {
           practice, computational workflows and design decision-making.
         </p>
 
-        <AnimatedGridDivider contained={false} />
-
         <ul>
           {researchEntries.map((entry) => (
             <li
               key={entry.n}
-              className="grid gap-2 border-b border-stroke/15 py-6 md:grid-cols-12 md:gap-8"
+              className="grid gap-2 py-6 md:grid-cols-12 md:gap-8"
             >
               <p className="text-xs tracking-[0.15em] text-accent/80 md:col-span-1">
                 {entry.n} /

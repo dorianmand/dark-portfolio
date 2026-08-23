@@ -23,7 +23,7 @@ export function Figure({ src, alt, caption }: FigureProps) {
         src={src}
         alt={alt}
         loading="lazy"
-        className="w-full border border-stroke/10"
+        className="w-full"
       />
 
       {caption && (

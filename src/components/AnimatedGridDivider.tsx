@@ -1,76 +1,75 @@
 import { useEffect, useRef, useState } from 'react';
 
 /**
- * A wireframe plane that passes through the page edge-on as you scroll.
+ * A wireframe plane that the page floats over, driven by scroll.
  *
- * The plane is a real grid in camera space, not a CSS perspective box or a
- * set of lines animating independently. Every frame it is projected through a
- * pinhole camera: a point at depth `z` and lateral offset `x` lands at
- * `(x / z, y / z)`, with focal length and `zNear` both fixed at 1. That is the
- * entire model, and it is what makes the motion read as one rigid object:
+ * The plane is a real grid in camera space, projected through a pinhole
+ * camera: a point at depth `z` and lateral offset `x` lands at `(x / z, y / z)`,
+ * with focal length and `zNear` both fixed at 1. That single model produces
+ * every behaviour here:
  *
- *   - lines of constant depth become horizontals whose spacing tightens
- *     toward the far edge, because spacing falls off as 1/z;
- *   - lines of constant lateral offset converge on the vanishing point, the
- *     outermost angling hardest while the centre one stays exactly vertical,
- *     because x = 0 projects to x = 0 at every depth;
- *   - the whole projection scales with `y`, the plane's height relative to the
- *     camera, so at y = 0 it is exactly edge-on and collapses to a single
- *     line. Nothing is faked to get there — it falls out of the projection.
+ *   - lines of constant depth become horizontals whose spacing tightens toward
+ *     the far edge, because screen spacing falls off as 1/z²;
+ *   - lines of constant lateral offset converge on the vanishing point. An odd
+ *     column count puts no line at x = 0, centring a strip instead with its two
+ *     bounding lines symmetric either side;
+ *   - the projection scales with `y`, the plane's height relative to the
+ *     camera, so at y = 0 it is exactly edge-on and collapses to one line.
  *
- * `y` is driven directly by this element's own position in the viewport, so
- * the motion is scroll-locked rather than timed, and every instance responds
- * to where it sits in the document.
+ * Two things are worth knowing about how it is anchored.
  *
- * The far edge is anchored to the site's content column so the plane's back
- * edge lands on the same rules the sections use; the near edge runs past it by
- * `depthRatio`. Proportions start from the Rhino reference stills but are
- * pitched steeper — see `depthRatio` and `travel`.
+ * The horizon sits at this element's own centre, so the collapse happens
+ * exactly as the element crosses the middle of the viewport — that hairline is
+ * the section rule. Everything else is measured in VIEWPORT fractions, not in
+ * fractions of the element. An earlier version scaled the plane off its own
+ * layout slot, which capped how large it could get: the slot had to contain the
+ * plane, and once the slot grew taller than the viewport its centre scrolled
+ * off-screen and took the plane with it.
+ *
+ * The plane is drawn BELOW the horizon when the element is ABOVE the middle of
+ * the viewport. That is the pose the Rhino reference shows — looking down onto
+ * the surface — and it only fits on screen that way round: a plane below a low
+ * horizon has nowhere to go but off the bottom edge.
+ */
+
+/**
+ * One geometry for every instance — there is deliberately no second variant.
+ *
+ * Measured off the Rhino reference, read as a full viewport frame: horizon at
+ * 28% with empty ground above it, far edge at 55%, near edge at 97% — a
+ * complete visible line just inside the bottom, not clipped. The far edge is
+ * 39% of the near edge width, which fixes the depth ratio at 2.6.
  */
 const GRID = {
-  /** Subdivisions per axis. Fewer on narrow screens so hairlines stay legible. */
-  subdivisions: { mobile: 8, desktop: 10 },
+  /** Odd column count — no line down the centre, a centred strip instead. */
+  columns: { mobile: 9, desktop: 11 },
+  rows: { mobile: 12, desktop: 16 },
+  depthRatio: 2.6,
 
-  /**
-   * zFar / zNear. Sets both how hard the plane narrows with depth and how deep
-   * the band is: far width is 1/ratio of near width, and the band spans
-   * (1 - 1/ratio) of the near edge's offset from centre.
-   *
-   * It is also exactly how much longer the near edge is than the far one, so
-   * this is the knob for "how far does the front run past the back".
-   *
-   * Well past the 1.75 the reference stills measure at: those were shot from a
-   * shallower angle that reads as a thin sliver at this page width.
-   */
-  depthRatio: 3,
+  /** Horizon height at full extension, as a fraction of the viewport. */
+  horizonVh: 0.28,
+  /** Near edge at full extension. The gap to horizonVh is the plane's reach. */
+  nearEdgeVh: 0.97,
+  /** Near edge width as a fraction of the viewport width. */
+  nearWidthVw: 0.93,
 
-  /**
-   * Far edge width as a multiple of the drawing box. The box is the site's own
-   * content column, so at 1 the plane's back edge lands exactly on the section
-   * rules above and below it. The near edge is this multiplied by depthRatio,
-   * running proportionally past the column on both sides.
-   */
-  farWidth: 1,
-
-  /**
-   * Peak offset of the near edge from the centre line, as a fraction of the
-   * drawing box — i.e. how high the camera sits above the plane. Independent of
-   * depthRatio: raising this shows more of the surface without altering the
-   * near/far width proportion. Capped near 0.58, past which the near edge
-   * leaves the box at full extension.
-   */
-  travel: 0.54,
+  heightClass: 'h-[140px] md:h-[180px]',
 
   /**
    * Below this projected band height (px) the grid crossfades to a single
-   * stroke. Eleven hairlines packed into a few pixels stop reading as a grid
-   * and start reading as a dark bar; this keeps the centre pose to one line,
-   * which is the whole point of it.
+   * stroke. Hairlines packed into a few pixels stop reading as a grid and start
+   * reading as a dark bar; this keeps the centre pose to one line.
    */
   collapsePx: 30,
 
-  /** |progress| at which the plane starts fading out near the viewport edges. */
-  fadeFrom: 0.86,
+  /**
+   * Fade window, in multiples of the full-extension position. The plane keeps
+   * growing past its reference pose, so it is faded out shortly after rather
+   * than allowed to run away. This is also why two instances a few hundred
+   * pixels apart never both paint at once.
+   */
+  fadeFromQ: 1.15,
+  fadeToQ: 1.6,
 
   opacity: { grid: 0.4, spine: 0.52 },
 
@@ -82,13 +81,6 @@ const GRID = {
   strokeWidth: 0.5,
 } as const;
 
-/**
- * How far the drawing box overhangs its layout slot, as a percentage of the
- * slot height. Lets the plane travel further than the space the divider
- * reserves, reaching only into the neighbouring sections' padding.
- */
-const OVERSCAN = 140;
-
 const clamp = (v: number, lo: number, hi: number) => Math.min(hi, Math.max(lo, v));
 
 function smoothstep(edge0: number, edge1: number, x: number) {
@@ -98,8 +90,8 @@ function smoothstep(edge0: number, edge1: number, x: number) {
 
 /**
  * Honours the OS setting, plus the same `?motion=full` / `?motion=reduced`
- * override the intro uses — so one URL exercises every motion path on the
- * site rather than just the intro's.
+ * override the intro uses — so one URL exercises every motion path on the site
+ * rather than just the intro's.
  */
 function useReducedMotion() {
   const [reduced, setReduced] = useState(false);
@@ -127,9 +119,9 @@ export function AnimatedGridDivider({
 }: {
   className?: string;
   /**
-   * Wrap in the site's content column. Leave on when the divider stands
-   * between sections; turn it off when it replaces a rule that already sits
-   * inside a section's column, so the padding is not applied twice.
+   * Wrap in the site's content column. Leave on when the divider stands between
+   * sections; turn it off when it replaces a rule already inside a section's
+   * column, so the padding is not applied twice.
    */
   contained?: boolean;
 }) {
@@ -149,25 +141,22 @@ export function AnimatedGridDivider({
     const R = GRID.depthRatio;
 
     /**
-     * The collapsed hairline is drawn at the far edge width, so the moment the
-     * plane goes edge-on it reads as one more section rule rather than a line
-     * overshooting the column. Physically the edge-on plane spans the near
-     * width; this is a deliberate stylisation of that instant.
+     * The collapsed hairline spans the near edge width — which is what an
+     * edge-on plane actually projects to, and wide enough to read as the
+     * section rule it replaces.
      */
-    const spinePath = (w: number, h: number) => {
-      const halfFar = (w * GRID.farWidth) / 2;
-      const cy = (h / 2).toFixed(1);
-      return `M${(w / 2 - halfFar).toFixed(1)} ${cy}H${(w / 2 + halfFar).toFixed(1)}`;
+    const spinePath = () => {
+      const box = svg.getBoundingClientRect();
+      const rect = host.getBoundingClientRect();
+      const halfNear = (window.innerWidth * GRID.nearWidthVw) / 2;
+      const cx = window.innerWidth / 2 - box.left;
+      const cy = rect.top + rect.height / 2 - box.top;
+      return `M${(cx - halfNear).toFixed(1)} ${cy.toFixed(1)}H${(cx + halfNear).toFixed(1)}`;
     };
 
-    /** The plane seen exactly edge-on: one hairline across the centre. */
     const drawCollapsed = () => {
-      const w = svg.clientWidth;
-      const h = svg.clientHeight;
-      if (!w || !h) return;
-
       grid.setAttribute('opacity', '0');
-      spine.setAttribute('d', spinePath(w, h));
+      spine.setAttribute('d', spinePath());
       spine.setAttribute('opacity', String(GRID.opacity.spine));
     };
 
@@ -175,56 +164,66 @@ export function AnimatedGridDivider({
       drawCollapsed();
       const idle = new ResizeObserver(drawCollapsed);
       idle.observe(host);
-      return () => idle.disconnect();
+      window.addEventListener('resize', drawCollapsed, { passive: true });
+      return () => {
+        idle.disconnect();
+        window.removeEventListener('resize', drawCollapsed);
+      };
     }
 
     const draw = () => {
-      const w = svg.clientWidth;
-      const h = svg.clientHeight;
-      if (!w || !h) return;
-
-      // Where this instance sits relative to the viewport centre:
-      // -1 entering from the bottom, 0 dead centre, +1 leaving past the top.
+      const vw = window.innerWidth;
+      const vh = window.innerHeight;
       const rect = host.getBoundingClientRect();
-      const viewport = window.innerHeight;
-      const centre = rect.top + rect.height / 2;
-      const p = clamp(
-        (viewport / 2 - centre) / ((viewport + rect.height) / 2),
-        -1,
-        1,
-      );
+      const box = svg.getBoundingClientRect();
+      if (!vw || !vh || !box.width) return;
 
-      const cx = w / 2;
-      const cy = h / 2;
-      // World lateral extent. With zNear = 1 the near edge projects at exactly
-      // this, and the far edge at this over R — so anchoring the far edge to
-      // the column means scaling the extent up by R.
-      const halfNear = ((w * GRID.farWidth) / 2) * R;
-      const y = p * (h * GRID.travel);
-      const n = w < 768 ? GRID.subdivisions.mobile : GRID.subdivisions.desktop;
+      // The horizon is this element's own centre, so the plane goes edge-on
+      // exactly as the element crosses the middle of the viewport.
+      const horizonV = rect.top + rect.height / 2;
+
+      // Signed progress: 0 at the viewport centre, +1 where the element has
+      // risen far enough that its centre sits at the reference horizon height.
+      // Positive means the element is above centre, which is where the plane
+      // reads as a floor seen from above.
+      const pRef = ((0.5 - GRID.horizonVh) * vh * 2) / (vh + rect.height);
+      const p = (vh / 2 - horizonV) / ((vh + rect.height) / 2);
+      const q = p / pRef;
+
+      // Distance from the horizon to the near edge, in px. Positive draws the
+      // plane below the horizon.
+      const reach = (GRID.nearEdgeVh - GRID.horizonVh) * vh;
+      const y = q * reach;
+
+      const halfNear = (vw * GRID.nearWidthVw) / 2;
+      const cx = vw / 2 - box.left;
+      const toBoxY = (viewportY: number) => viewportY - box.top;
+
+      const narrow = vw < 768;
+      const rows = narrow ? GRID.rows.mobile : GRID.rows.desktop;
+      const columns = narrow ? GRID.columns.mobile : GRID.columns.desktop;
 
       let d = '';
 
-      // Constant depth -> horizontals. Depth runs 1 to R, so the spacing
-      // tightens toward the far edge on its own.
-      for (let i = 0; i <= n; i++) {
-        const z = 1 + (R - 1) * (i / n);
-        const sy = (cy - y / z).toFixed(1);
+      // Constant depth -> horizontals, tightening toward the far edge on their own.
+      for (let i = 0; i <= rows; i++) {
+        const z = 1 + (R - 1) * (i / rows);
+        const sy = toBoxY(horizonV + y / z).toFixed(1);
         const sx = halfNear / z;
         d += `M${(cx - sx).toFixed(1)} ${sy}H${(cx + sx).toFixed(1)}`;
       }
 
       // Constant lateral offset -> verticals, near edge to far edge.
-      const nearY = (cy - y).toFixed(1);
-      const farY = (cy - y / R).toFixed(1);
-      for (let j = 0; j <= n; j++) {
-        const x = -halfNear + (2 * halfNear * j) / n;
+      const nearY = toBoxY(horizonV + y).toFixed(1);
+      const farY = toBoxY(horizonV + y / R).toFixed(1);
+      for (let j = 0; j <= columns; j++) {
+        const x = -halfNear + (2 * halfNear * j) / columns;
         d += `M${(cx + x).toFixed(1)} ${nearY}L${(cx + x / R).toFixed(1)} ${farY}`;
       }
 
       const bandPx = Math.abs(y) * (1 - 1 / R);
       const collapse = 1 - smoothstep(0, GRID.collapsePx, bandPx);
-      const edge = 1 - smoothstep(GRID.fadeFrom, 1, Math.abs(p));
+      const edge = 1 - smoothstep(GRID.fadeFromQ, GRID.fadeToQ, Math.abs(q));
 
       grid.setAttribute('d', d);
       grid.setAttribute(
@@ -232,14 +231,14 @@ export function AnimatedGridDivider({
         (GRID.opacity.grid * edge * (1 - collapse)).toFixed(3),
       );
 
-      spine.setAttribute('d', spinePath(w, h));
+      spine.setAttribute('d', spinePath());
       spine.setAttribute(
         'opacity',
         (GRID.opacity.spine * edge * collapse).toFixed(3),
       );
     };
 
-    // One frame per scroll burst, and only while the plane is near the
+    // One frame per scroll burst, and only while the element is near the
     // viewport, so geometry is never computed for instances far off screen.
     let frame = 0;
     let visible = false;
@@ -257,7 +256,8 @@ export function AnimatedGridDivider({
         visible = entry.isIntersecting;
         if (visible) schedule();
       },
-      { rootMargin: '25% 0px' },
+      // Generous, because the plane reaches far beyond the element itself.
+      { rootMargin: '150% 0px' },
     );
     observer.observe(host);
 
@@ -284,13 +284,8 @@ export function AnimatedGridDivider({
     <div
       ref={hostRef}
       aria-hidden="true"
-      className={`pointer-events-none relative h-[220px] md:h-[320px] ${className}`}
+      className={`pointer-events-none relative -z-10 ${GRID.heightClass} ${className}`}
     >
-      {/*
-        The same content column every section uses, so the plane's back edge —
-        and the hairline it collapses into — lands on the same width as the
-        rules it replaces rather than running full bleed.
-      */}
       <div
         className={
           contained
@@ -300,20 +295,14 @@ export function AnimatedGridDivider({
       >
         <div className="relative h-full">
           {/*
-            The drawing box overhangs its layout slot vertically so the plane
-            can travel further than the space the divider reserves. It only
-            reaches into the neighbouring sections' padding, and being
-            absolutely positioned it cannot push content.
-
-            Height is set explicitly rather than via top + bottom: an <svg> is
-            a replaced element with an intrinsic 300x150 size, so an
-            over-constrained absolute box ignores `bottom` and keeps that
-            intrinsic height.
+            The SVG only reserves its slot; `overflow-visible` lets the plane
+            paint well outside it, up behind the section's text. Coordinates are
+            computed in viewport space and converted into this box, so the box's
+            own size never constrains the geometry.
           */}
           <svg
             ref={svgRef}
-            className="absolute inset-x-0 block w-full overflow-visible text-text-primary"
-            style={{ top: `${-OVERSCAN / 2}%`, height: `${100 + OVERSCAN}%` }}
+            className="absolute inset-0 block h-full w-full overflow-visible text-text-primary"
             fill="none"
             stroke="currentColor"
             strokeWidth={GRID.strokeWidth}

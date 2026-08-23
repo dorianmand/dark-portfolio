@@ -32,7 +32,7 @@ export function FeaturedPoster({ project }: FeaturedPosterProps) {
         aria-label={`${project.title} — ${t('common.openDemo')}`}
         className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
       >
-        <div className="overflow-hidden border border-stroke/10 bg-stroke/[0.03]">
+        <div className="overflow-hidden">
           <img
             src={image}
             alt={project.title}

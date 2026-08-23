@@ -37,7 +37,7 @@ export function ProjectList({ tag = null, layout = 'list', excludeSlug }: Projec
               className="group block focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
             >
               {project.cover && (
-                <div className="aspect-[16/9] overflow-hidden border border-stroke/10 bg-stroke/[0.03]">
+                <div className="aspect-[16/9] overflow-hidden">
                   <img
                     src={project.cover}
                     alt={project.title}
@@ -93,7 +93,6 @@ export function ProjectList({ tag = null, layout = 'list', excludeSlug }: Projec
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: i * 0.06 }}
             viewport={{ once: true }}
-            className="border-b border-stroke/20"
           >
             <Link
               to={`/projects/${project.slug}`}
@@ -140,7 +139,7 @@ export function ProjectList({ tag = null, layout = 'list', excludeSlug }: Projec
                 an in-progress scroll to #research.
               */}
               {project.cover && (
-                <div className="mt-8 aspect-[16/9] overflow-hidden border border-stroke/10 bg-stroke/[0.03]">
+                <div className="mt-8 aspect-[16/9] overflow-hidden">
                   <img
                     src={project.cover}
                     alt={project.title}

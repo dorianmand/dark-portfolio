@@ -16,7 +16,11 @@ export function SelectedWorks() {
   const showFeatured = Boolean(featured?.demoUrl);
 
   return (
-    <section id="work" aria-label="Selected work" className="relative bg-bg py-16 md:py-24">
+    <section
+      id="work"
+      aria-label="Selected work"
+      className="relative isolate bg-bg py-16 md:py-24"
+    >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
         <div className="mb-12 flex items-baseline justify-between gap-6">
           <h2 className="text-xs uppercase tracking-[0.3em] text-muted">

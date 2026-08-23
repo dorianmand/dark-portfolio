@@ -35,17 +35,18 @@ export function FieldsOfWork() {
 
   return (
     <div className="mx-auto mt-24 max-w-[1200px] px-6 md:mt-28 md:px-10 lg:px-16">
+      {/* Junction between the project list and the fields list. */}
+      <AnimatedGridDivider contained={false} />
+
       <h3 className="mb-10 text-xs uppercase tracking-[0.3em] text-muted">
         {t('label.fieldsOfWork')}
       </h3>
-
-      <AnimatedGridDivider contained={false} />
 
       <ul>
         {fields.map((field) => (
           <li
             key={field.n}
-            className="grid gap-2 border-b border-stroke/15 py-6 md:grid-cols-12 md:gap-8"
+            className="grid gap-2 py-6 md:grid-cols-12 md:gap-8"
           >
             <p className="text-xs tracking-[0.15em] text-accent/80 md:col-span-1">
               {field.n} /

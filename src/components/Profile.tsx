@@ -6,7 +6,13 @@ export function Profile() {
   const t = useT();
 
   return (
-    <section id="profile" aria-label="Profile" className="bg-bg py-16 md:py-24">
+    <section
+      id="profile"
+      aria-label="Profile"
+      // `isolate` gives this section its own stacking context, so the
+      // divider at -z-10 paints above this background but below the text.
+      className="relative isolate bg-bg py-16 md:py-24"
+    >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
         <div className="mb-10 flex items-baseline justify-between gap-6">
           <h2 className="text-xs uppercase tracking-[0.3em] text-muted">
