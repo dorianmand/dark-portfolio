@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import gsap from 'gsap';
 import { HeroAutomationLayer } from './HeroAutomationLayer';
+import { AnimatedGridDivider } from './AnimatedGridDivider';
 
 /**
  * Reads the OS "reduce motion" setting and keeps it current if the user
@@ -59,7 +60,7 @@ export function Hero({ deferReveal = false }: HeroProps) {
     <section
       id="hero"
       aria-label="Introduction"
-      className="relative flex min-h-[85vh] items-start bg-bg pb-28 md:pb-32"
+      className="relative isolate flex min-h-[85vh] items-start bg-bg pb-28 md:pb-32"
       /* Sits a measured 50px below the header's lower-left line rather than a
          guessed padding — --nav-edge is published by Navbar and tracks the
          wordmark, so the gap holds at the smaller mobile size too. */
@@ -69,30 +70,52 @@ export function Hero({ deferReveal = false }: HeroProps) {
         <div className="grid gap-y-10 md:grid-cols-12">
           <div className="md:col-span-8">
             {/*
-              Set to match a project card's title and metadata line, so the
-              hero introduces Dorian in the same voice the work is listed in.
+              The wordmark in the header already says LayerOff, so the title is
+              not repeated here. This sentence carries the h1 instead: the page
+              still needs exactly one for the document outline, and it is the
+              most descriptive line on it. Heading level is semantic, not a
+              size — it keeps body weight so nothing reads as a second title.
             */}
-            <h1 className="hero-line max-w-4xl text-2xl tracking-tight md:text-3xl">
-              Dorian Mandzukic
+            <h1 className="hero-line max-w-2xl text-base font-normal leading-relaxed text-text-primary md:text-lg">
+              A portfolio of computational and AI projects for architectural
+              practice.
             </h1>
 
-            <p className="hero-line mt-2 text-xs uppercase tracking-[0.2em] text-muted">
-              Architect <span className="text-muted/60">·</span> Computational
-              Designer
-            </p>
-
             <div className="hero-line mt-8 max-w-2xl space-y-5 text-base leading-relaxed text-muted md:text-lg">
-              <p className="text-text-primary">
-                I build computational design and AI workflows for the recurring
-                problems of architectural practice, without removing judgment or
-                responsibility from the architect.
+              <p>
+                LayerOff refers to a basic CAD operation: switching a layer off.
+                The layer is not deleted; its information remains embedded in
+                the drawing, temporarily withdrawn from view while continuing to
+                organise the work.
               </p>
 
               <p>
-                Each project shown here began with a problem I encountered in
-                practice: keeping a competition strategy coherent, testing a
-                massing against its own rules or preparing a building-permit
-                submission without entering the same information repeatedly.
+                The name frames this portfolio’s focus on the operative
+                structures behind architectural production: project information,
+                workflow logic, rules, dependencies, decision paths and
+                intermediate representations. These are the working layers that
+                shape an architectural outcome but are often absent from its
+                final presentation.
+              </p>
+
+              <p>
+                The projects presented here examine how computational design and
+                applied AI can make these structures more legible, reviewable
+                and useful, without displacing architectural authorship or
+                professional responsibility.
+              </p>
+            </div>
+
+            {/* Signature. Keeps Dorian's name and role on the page even though
+                the portfolio title now carries the headline. */}
+            <div className="hero-line mt-8">
+              <p className="text-base tracking-tight text-text-primary md:text-lg">
+                Dorian Mandzukic
+              </p>
+
+              <p className="mt-1 text-xs uppercase tracking-[0.2em] text-muted">
+                Architect <span className="text-muted/60">·</span> Computational
+                Designer
               </p>
             </div>
 
@@ -118,6 +141,9 @@ export function Hero({ deferReveal = false }: HeroProps) {
             <HeroAutomationLayer hold={deferReveal} />
           </div>
         </div>
+
+        {/* The hero's floor: the surface this section's content sits on. */}
+        <AnimatedGridDivider contained={false} />
       </div>
     </section>
   );

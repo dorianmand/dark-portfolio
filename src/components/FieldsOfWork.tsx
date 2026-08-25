@@ -35,9 +35,6 @@ export function FieldsOfWork() {
 
   return (
     <div className="mx-auto mt-24 max-w-[1200px] px-6 md:mt-28 md:px-10 lg:px-16">
-      {/* Junction between the project list and the fields list. */}
-      <AnimatedGridDivider contained={false} />
-
       <h3 className="mb-10 text-xs uppercase tracking-[0.3em] text-muted">
         {t('label.fieldsOfWork')}
       </h3>
@@ -62,6 +59,8 @@ export function FieldsOfWork() {
           </li>
         ))}
       </ul>
+
+      <AnimatedGridDivider contained={false} />
     </div>
   );
 }

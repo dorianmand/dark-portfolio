@@ -83,8 +83,6 @@ export function ProjectList({ tag = null, layout = 'list', excludeSlug }: Projec
 
   return (
     <>
-      <AnimatedGridDivider contained={false} />
-
       <ul>
         {shown.map((project, i) => (
           <motion.li
@@ -154,6 +152,9 @@ export function ProjectList({ tag = null, layout = 'list', excludeSlug }: Projec
           </motion.li>
         ))}
       </ul>
+
+      {/* The projects' own floor, before Fields of work begins. */}
+      <AnimatedGridDivider contained={false} />
     </>
   );
 }

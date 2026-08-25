@@ -17,9 +17,6 @@ export function Contact() {
       className="relative isolate bg-bg py-16 md:py-24"
     >
       <div className="mx-auto max-w-[1200px] px-6 md:px-10 lg:px-16">
-        {/* Junction between the research list and the contact block. */}
-        <AnimatedGridDivider contained={false} />
-
         <h2 className="mb-10 text-xs uppercase tracking-[0.3em] text-muted">
           {t('label.contact')}
         </h2>
@@ -51,6 +48,8 @@ export function Contact() {
             ))}
           </div>
         </div>
+
+        <AnimatedGridDivider contained={false} />
       </div>
     </section>
   );

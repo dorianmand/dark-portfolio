@@ -27,8 +27,6 @@ export function Profile() {
           </Link>
         </div>
 
-        <AnimatedGridDivider contained={false} />
-
         <div className="max-w-2xl space-y-5 text-base leading-relaxed text-muted md:text-lg">
           <p className="text-text-primary">
             I am a Berlin-based architect and project lead with 13 years of
@@ -46,6 +44,8 @@ export function Profile() {
 
           <p>Member of the Architektenkammer Berlin since May 2025.</p>
         </div>
+
+        <AnimatedGridDivider contained={false} />
       </div>
     </section>
   );

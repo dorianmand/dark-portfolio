@@ -71,6 +71,18 @@ const GRID = {
   fadeFromQ: 1.15,
   fadeToQ: 1.6,
 
+  /**
+   * The mirrored side fades far sooner than the floor side, deliberately.
+   *
+   * Past the collapse the plane flips and becomes the underside, and with a
+   * symmetric fade that mirrored copy hangs at the top of the screen while the
+   * next section's floor is already rising — two surfaces at once, one an exact
+   * mirror of the other. Cutting it early keeps the flip as a gesture without
+   * leaving a second plane on screen.
+   */
+  mirrorFadeFromQ: 0.12,
+  mirrorFadeToQ: 0.55,
+
   opacity: { grid: 0.4, spine: 0.52 },
 
   /**
@@ -178,22 +190,22 @@ export function AnimatedGridDivider({
       const box = svg.getBoundingClientRect();
       if (!vw || !vh || !box.width) return;
 
-      // The horizon is this element's own centre, so the plane goes edge-on
-      // exactly as the element crosses the middle of the viewport.
-      const horizonV = rect.top + rect.height / 2;
+      // The element marks the plane's NEAR edge — its front lip — so the
+      // surface lies ABOVE the element, underneath the section content that
+      // precedes it. Anchoring the horizon here instead put the surface below
+      // the element, where it floored the *next* section rather than its own.
+      const nearV = rect.top + rect.height / 2;
 
-      // Signed progress: 0 at the viewport centre, +1 where the element has
-      // risen far enough that its centre sits at the reference horizon height.
-      // Positive means the element is above centre, which is where the plane
-      // reads as a floor seen from above.
-      const pRef = ((0.5 - GRID.horizonVh) * vh * 2) / (vh + rect.height);
-      const p = (vh / 2 - horizonV) / ((vh + rect.height) / 2);
-      const q = p / pRef;
+      // Signed progress. 0 when the element sits at the viewport centre, where
+      // the plane is edge-on; +1 once it reaches `nearEdgeVh` near the bottom of
+      // the screen — the reference pose, with the section's content filling the
+      // frame above the floor. Negative once the element rises past centre,
+      // which mirrors the plane and reads as the flip.
+      const q = (nearV - vh / 2) / ((GRID.nearEdgeVh - 0.5) * vh);
 
-      // Distance from the horizon to the near edge, in px. Positive draws the
-      // plane below the horizon.
       const reach = (GRID.nearEdgeVh - GRID.horizonVh) * vh;
       const y = q * reach;
+      const horizonV = nearV - y;
 
       const halfNear = (vw * GRID.nearWidthVw) / 2;
       const cx = vw / 2 - box.left;
@@ -223,7 +235,10 @@ export function AnimatedGridDivider({
 
       const bandPx = Math.abs(y) * (1 - 1 / R);
       const collapse = 1 - smoothstep(0, GRID.collapsePx, bandPx);
-      const edge = 1 - smoothstep(GRID.fadeFromQ, GRID.fadeToQ, Math.abs(q));
+      const edge =
+        q >= 0
+          ? 1 - smoothstep(GRID.fadeFromQ, GRID.fadeToQ, q)
+          : 1 - smoothstep(GRID.mirrorFadeFromQ, GRID.mirrorFadeToQ, -q);
 
       grid.setAttribute('d', d);
       grid.setAttribute(
