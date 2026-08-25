@@ -5,10 +5,15 @@ import { useLang, LocalizedLink as Link } from '../lib/language';
 /**
  * Contact form, posting to /api/contact.
  *
- * Deliberately small: four fields, a consent checkbox and a send button. The
- * email address stays visible underneath as a plain mailto, so the form is
- * never the only way through — if JavaScript fails or the endpoint is down,
- * there is still an address to write to.
+ * Deliberately small: four fields, a privacy-notice acknowledgment checkbox
+ * and a send button. The email address stays visible underneath as a plain
+ * mailto, so the form is never the only way through — if JavaScript fails or
+ * the endpoint is down, there is still an address to write to.
+ *
+ * The checkbox is an acknowledgment ("I have read the privacy policy"), not
+ * consent ("I agree") — the form's legal basis is Art. 6(1)(b)/(f) GDPR, and
+ * wording it as consent would imply Art. 6(1)(a) and create a contradictory
+ * second basis. See PrivacyPage.tsx.
  *
  * Entered content is never cleared on failure. Losing a written message to a
  * transient network error is the worst thing a form like this can do.
@@ -47,7 +52,11 @@ export function ContactForm() {
       email: String(data.get('email') ?? '').trim(),
       subject: String(data.get('subject') ?? ''),
       message: String(data.get('message') ?? '').trim(),
-      consent: data.get('consent') === 'on',
+      // Wire field is still named `consent` in api/contact.ts's payload shape;
+      // it records acknowledgment of the privacy policy, not consent to
+      // processing — see the note above.
+      consent: data.get('acknowledge') === 'on',
+
       // Honeypot. Hidden from sight and from assistive tech; only bots fill it.
       company: String(data.get('company') ?? ''),
     };
@@ -57,7 +66,7 @@ export function ContactForm() {
     const next: Record<string, string> = {};
     if (!isEmail(payload.email)) next.email = t('form.errorEmail');
     if (!payload.message) next.message = t('form.errorMessage');
-    if (!payload.consent) next.consent = t('form.errorConsent');
+    if (!payload.consent) next.acknowledge = t('form.errorAcknowledge');
 
     setFieldErrors(next);
 
@@ -69,7 +78,7 @@ export function ContactForm() {
       // React has re-rendered with the new errors, which has not happened yet
       // at this point. Field order matches the visual order so focus lands on
       // the first problem, not an arbitrary one.
-      const first = ['email', 'message', 'consent'].find((field) => next[field]);
+      const first = ['email', 'message', 'acknowledge'].find((field) => next[field]);
       if (first) {
         form.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
       }
@@ -195,16 +204,16 @@ export function ContactForm() {
         <div>
           <div className="flex items-start gap-3">
             <input
-              id={`${id}-consent`}
-              name="consent"
+              id={`${id}-acknowledge`}
+              name="acknowledge"
               type="checkbox"
               required
-              aria-invalid={invalid('consent') || undefined}
-              aria-describedby={describedBy('consent')}
+              aria-invalid={invalid('acknowledge') || undefined}
+              aria-describedby={describedBy('acknowledge')}
               className="mt-1 h-4 w-4 shrink-0 accent-accent focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
             />
             <label
-              htmlFor={`${id}-consent`}
+              htmlFor={`${id}-acknowledge`}
               className="text-sm leading-relaxed text-muted"
             >
               {t('form.consent')}{' '}
@@ -214,9 +223,10 @@ export function ContactForm() {
               >
                 {t('form.consentLink')}
               </Link>
+              {t('form.consentSuffix')}
             </label>
           </div>
-          <FieldError id={`${id}-consent-error`} message={fieldErrors.consent} />
+          <FieldError id={`${id}-acknowledge-error`} message={fieldErrors.acknowledge} />
         </div>
 
         {/* Submission-level failure, announced when it appears. */}

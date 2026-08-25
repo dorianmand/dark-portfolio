@@ -89,11 +89,17 @@ const STRINGS = {
   'form.required': { en: 'required', de: 'erforderlich' },
   'form.send': { en: 'Send message', de: 'Nachricht senden' },
   'form.sending': { en: 'Sending…', de: 'Wird gesendet…' },
-  'form.consent': {
-    en: 'I agree that my message and email address may be used to answer my enquiry.',
-    de: 'Ich bin damit einverstanden, dass meine Nachricht und E-Mail-Adresse zur Beantwortung meiner Anfrage verwendet werden.',
-  },
-  'form.consentLink': { en: 'Privacy policy', de: 'Datenschutzerklärung' },
+  /*
+   * Acknowledgment, not consent. The legal basis for the contact form is
+   * Art. 6(1)(b)/(f) GDPR (pre-contractual steps / legitimate interest in
+   * answering inquiries addressed to me) — see PrivacyPage.tsx — so the
+   * checkbox must not say "I agree" or "I consent", which would imply
+   * Art. 6(1)(a) is the basis and create a contradictory second mechanism.
+   * Rendered as: {prefix} [privacy policy link] {suffix}
+   */
+  'form.consent': { en: 'I have read the', de: 'Ich habe die' },
+  'form.consentLink': { en: 'privacy policy', de: 'Datenschutzerklärung' },
+  'form.consentSuffix': { en: '.', de: ' gelesen.' },
   'form.success': {
     en: 'Thank you — your message has been sent. I will reply to the address you gave.',
     de: 'Danke — Ihre Nachricht wurde gesendet. Ich antworte an die angegebene Adresse.',
@@ -106,9 +112,9 @@ const STRINGS = {
     en: 'Please enter a message.',
     de: 'Bitte geben Sie eine Nachricht ein.',
   },
-  'form.errorConsent': {
-    en: 'Please confirm the privacy notice to send your message.',
-    de: 'Bitte bestätigen Sie den Datenschutzhinweis, um Ihre Nachricht zu senden.',
+  'form.errorAcknowledge': {
+    en: 'Please confirm you have read the privacy policy to send your message.',
+    de: 'Bitte bestätigen Sie, dass Sie die Datenschutzerklärung gelesen haben, um Ihre Nachricht zu senden.',
   },
   'form.errorRate': {
     en: 'Too many messages sent from this connection. Please try again later.',
