@@ -78,6 +78,51 @@ const STRINGS = {
   'lang.toGerman': { en: 'Switch to German', de: 'Auf Deutsch wechseln' },
   'lang.toEnglish': { en: 'Switch to English', de: 'Auf Englisch wechseln' },
   'lang.change': { en: 'Change language', de: 'Sprache wechseln' },
+
+  // Contact form. Interface strings rather than Dorian's voice, so they are
+  // translated here — an untranslated form label would read as broken.
+  'form.name': { en: 'Name', de: 'Name' },
+  'form.email': { en: 'Email', de: 'E-Mail' },
+  'form.subject': { en: 'Subject', de: 'Betreff' },
+  'form.message': { en: 'Message', de: 'Nachricht' },
+  'form.optional': { en: 'optional', de: 'optional' },
+  'form.required': { en: 'required', de: 'erforderlich' },
+  'form.send': { en: 'Send message', de: 'Nachricht senden' },
+  'form.sending': { en: 'Sending…', de: 'Wird gesendet…' },
+  'form.consent': {
+    en: 'I agree that my message and email address may be used to answer my enquiry.',
+    de: 'Ich bin damit einverstanden, dass meine Nachricht und E-Mail-Adresse zur Beantwortung meiner Anfrage verwendet werden.',
+  },
+  'form.consentLink': { en: 'Privacy policy', de: 'Datenschutzerklärung' },
+  'form.success': {
+    en: 'Thank you — your message has been sent. I will reply to the address you gave.',
+    de: 'Danke — Ihre Nachricht wurde gesendet. Ich antworte an die angegebene Adresse.',
+  },
+  'form.errorEmail': {
+    en: 'Please enter a valid email address.',
+    de: 'Bitte geben Sie eine gültige E-Mail-Adresse ein.',
+  },
+  'form.errorMessage': {
+    en: 'Please enter a message.',
+    de: 'Bitte geben Sie eine Nachricht ein.',
+  },
+  'form.errorConsent': {
+    en: 'Please confirm the privacy notice to send your message.',
+    de: 'Bitte bestätigen Sie den Datenschutzhinweis, um Ihre Nachricht zu senden.',
+  },
+  'form.errorRate': {
+    en: 'Too many messages sent from this connection. Please try again later.',
+    de: 'Zu viele Nachrichten von dieser Verbindung. Bitte versuchen Sie es später erneut.',
+  },
+  'form.errorSend': {
+    en: 'The message could not be sent. Please try again, or write directly to hello@layeroff.ai.',
+    de: 'Die Nachricht konnte nicht gesendet werden. Bitte versuchen Sie es erneut oder schreiben Sie direkt an hello@layeroff.ai.',
+  },
+  'form.errorHeading': { en: 'Message not sent', de: 'Nachricht nicht gesendet' },
+  'form.fallback': {
+    en: 'Or write directly to',
+    de: 'Oder schreiben Sie direkt an',
+  },
 } satisfies Record<string, Entry>;
 
 export type StringKey = keyof typeof STRINGS;

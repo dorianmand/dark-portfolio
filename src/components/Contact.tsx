@@ -1,5 +1,6 @@
 import { useT } from '../lib/i18n';
 import { AnimatedGridDivider } from './AnimatedGridDivider';
+import { ContactForm } from './ContactForm';
 
 const links = [
   { name: 'LinkedIn', url: 'https://www.linkedin.com/in/dorian-mandzukic' },
@@ -27,14 +28,13 @@ export function Contact() {
             architectural practice or the projects shown here.
           </p>
 
-          <a
-            href="mailto:hello@layeroff.ai"
-            className="mt-8 inline-block text-3xl tracking-tight transition-opacity hover:opacity-60 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent md:text-5xl"
-          >
-            hello@layeroff.ai
-          </a>
+          {/* The form carries the address as a plain mailto underneath, so the
+              oversized email link is no longer needed here. */}
+          <div className="mt-10">
+            <ContactForm />
+          </div>
 
-          <div className="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
+          <div className="mt-12 flex flex-wrap gap-x-8 gap-y-3 text-sm text-muted">
             {links.map((link) => (
               <a
                 key={link.name}

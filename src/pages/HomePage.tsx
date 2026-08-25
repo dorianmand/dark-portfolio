@@ -17,9 +17,9 @@ export function HomePage() {
   const [revealed, setRevealed] = useState(!playIntro);
 
   useSeo({
-    title: 'Dorian Mandzukic | Architect · Computational Designer',
+    title: 'LayerOff | A portfolio of computational and AI projects',
     description:
-      'Architect with thirteen years of practice across HOAI phases 1–8, building computational and AI systems for competition strategy, parametric design control and building permit documentation. Berlin.',
+      'A portfolio of computational and AI projects for architectural practice, by Dorian Mandzukic, architect and computational designer in Berlin. On the operative structures behind architectural production — workflow logic, rules, dependencies and decision paths.',
   });
 
   return (

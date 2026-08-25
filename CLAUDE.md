@@ -83,18 +83,29 @@ Do not create pages for:
 
 ## Homepage direction
 
-Recommended hero identity:
+The hero explains the site itself first, then the work, then the person. The
+wordmark in the header carries the LayerOff title, so the hero does not repeat
+it as a heading — the h1 sits on the positioning sentence, and Dorian's name
+and role close the block as a signature.
+
+Positioning sentence (the h1):
+
+A portfolio of computational and AI projects for architectural practice.
+
+The body explains the name as a CAD operation — a layer switched off, not
+deleted, its information still organising the work — and uses that to frame the
+portfolio's subject: the operative structures behind architectural production.
+
+Sign-off:
 
 Dorian Mandzukic
-Architect and Computational Designer
+Architect · Computational Designer
 
-Recommended headline:
-
-Architecture, computation, and systems for complex design problems.
-
-Recommended supporting copy:
-
-"I work across architectural design, parametric methods, and applied AI. My projects investigate how complex briefs, regulations, spatial relationships, and design intentions can be translated into clear, controlled, and useful processes."
+This makes LayerOff the portfolio's title rather than a person's byline, which
+is a deliberate shift from the earlier person-first hero. It stays within the
+rule below: LayerOff is a portfolio title and editorial signature, never
+presented as a company, collective, agency or software vendor, and Dorian's
+authorship is named on the page.
 
 Recommended links:
 

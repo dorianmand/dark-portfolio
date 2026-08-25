@@ -57,18 +57,33 @@ If a sentence would survive on an agency homepage, it does not belong here.
 
 ## 5. Positioning statement
 
-Working draft for the homepage, directly under the hero:
+Live on the homepage. The hero explains the domain first, then the work, then
+the person — the wordmark already carries the title, so the h1 is the
+positioning sentence rather than a repeated "LayerOff":
 
-> I am an architect with thirteen years of practice across HOAI phases 1–6, most
-> recently as office director at Wiel Arets Architects and senior architect at
-> Graft. I build computational and AI systems for the parts of that work I know
-> from the inside: competition strategy, parametric design control, and building
-> permit documentation.
+> A portfolio of computational and AI projects for architectural practice.
 >
-> These are not products. They are instruments, built to test how far
-> architectural judgment can be supported by software without being replaced by it.
+> LayerOff refers to a basic CAD operation: switching a layer off. The layer is
+> not deleted; its information remains embedded in the drawing, temporarily
+> withdrawn from view while continuing to organise the work.
+>
+> The name frames this portfolio's focus on the operative structures behind
+> architectural production: project information, workflow logic, rules,
+> dependencies, decision paths and intermediate representations. These are the
+> working layers that shape an architectural outcome but are often absent from
+> its final presentation.
+>
+> The projects presented here examine how computational design and applied AI
+> can make these structures more legible, reviewable and useful, without
+> displacing architectural authorship or professional responsibility.
+>
+> **Dorian Mandzukic** — Architect · Computational Designer
 
-The final sentence is the thesis of the site. Everything else supports it.
+The closing clause is the thesis of the site: legible structure without
+displacing authorship. Everything else supports it.
+
+The earlier draft opened in first person with Dorian's practice history. That
+material now belongs on the Profile page rather than the hero.
 
 ## 6. Fields of work
 
